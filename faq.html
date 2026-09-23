@@ -29,18 +29,161 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kalaartwrap.insporaone.in/"},{"@type":"ListItem","position":2,"name":"FAQs","item":"https://kalaartwrap.insporaone.in/faq"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Kala Art Wrap?","acceptedAnswer":{"@type":"Answer","text":"Kala Art Wrap is a Jaipur studio that hand-makes bouquets from satin ribbon — forever flowers that never wilt. Every bouquet is custom: you pick the colours, the shape and extras like chocolates, a note, a name tag, pearls or fairy lights. Prices start at ₹199 and bouquets are ready in 3–5 days."}},{"@type":"Question","name":"How do I order a bouquet?","acceptedAnswer":{"@type":"Answer","text":"Message us on WhatsApp or Instagram, or send an enquiry on our contact page. Tell us the occasion, colours and budget — we'll suggest ideas and confirm the design and price with you."}},{"@type":"Question","name":"How much does a bouquet cost?","acceptedAnswer":{"@type":"Answer","text":"Our forever bouquets start at just ₹199. The final price depends on the size, number of flowers and any extras. Tell us your budget and we'll design around it."}},{"@type":"Question","name":"Can I customise everything?","acceptedAnswer":{"@type":"Answer","text":"Yes — ribbon colours, wrapping paper, the shape (round, heart, square box, cone or single stem) and little extras like chocolates, a handwritten note, a name tag, pearls or fairy lights."}},{"@type":"Question","name":"Can I send a photo of a bouquet I like?","acceptedAnswer":{"@type":"Answer","text":"Of course! Share it with us on WhatsApp or Instagram and we'll make one just for you."}},{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"Every bouquet is handmade to order, so it's usually ready in 3–5 days after you approve the design."}},{"@type":"Question","name":"Do you deliver to my city?","acceptedAnswer":{"@type":"Answer","text":"We're based in Jaipur. Message us with your city and we'll let you know the delivery options and any charges before you order."}},{"@type":"Question","name":"Can I get it urgently?","acceptedAnswer":{"@type":"Answer","text":"Sometimes! Ask us on WhatsApp — if we can make it in time, we'll tell you honestly."}},{"@type":"Question","name":"What is an E-bouquet?","acceptedAnswer":{"@type":"Answer","text":"A digital bouquet you design yourself in our E-bouquet studio — pick the shape, flowers, colours and extras, add a note, and download it as a picture."}},{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes, designing and downloading an E-bouquet is completely free."}},{"@type":"Question","name":"Can you make my E-bouquet for real?","acceptedAnswer":{"@type":"Answer","text":"Yes! Tap “Order this design” in the studio. We'll receive your design and make a handmade version — it may differ slightly from the illustration because every piece is made by hand."}},{"@type":"Question","name":"Will the flowers really last?","acceptedAnswer":{"@type":"Answer","text":"They're made from satin ribbon, so they don't wilt or fade like fresh flowers."}},{"@type":"Question","name":"How do I look after my bouquet?","acceptedAnswer":{"@type":"Answer","text":"Keep it away from water, direct sunlight and damp places, and dust it gently with a soft dry brush."}},{"@type":"Question","name":"What happens to my details when I fill a form?","acceptedAnswer":{"@type":"Answer","text":"We only use them to reply to your enquiry and make your order. We never sell them. Read our Privacy Policy for the full details."}},{"@type":"Question","name":"Can I ask you to delete my details?","acceptedAnswer":{"@type":"Answer","text":"Yes — just message us on WhatsApp or Instagram and we'll delete them."}}]}]}</script>
   <!-- /SEO -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <script src="assets/theme.js"></script>
+  <script>/* Kala Art Wrap — light / dark theme.
+   Load this synchronously in <head> so the saved theme applies before first paint. */
+(function () {
+  var KEY = 'kala-theme';
+  var root = document.documentElement;
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var theme = saved === 'light' || saved === 'dark' ? saved : 'dark'; // brand default: dark
+  root.setAttribute('data-theme', theme);
+
+  function metaColor(t) {
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', t === 'light' ? '#f7efe9' : '#12090b');
+  }
+  function syncButtons(t) {
+    var btns = document.querySelectorAll('[data-theme-toggle]');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', String(t === 'light'));
+      btns[i].setAttribute('aria-label', t === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+      btns[i].title = t === 'light' ? 'Dark theme' : 'Light theme';
+    }
+  }
+  function set(t) {
+    root.classList.add('theme-swap');
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+    metaColor(t);
+    syncButtons(t);
+    setTimeout(function () { root.classList.remove('theme-swap'); }, 450);
+    window.dispatchEvent(new CustomEvent('kala:theme', { detail: t }));
+  }
+  window.KalaTheme = {
+    get: function () { return root.getAttribute('data-theme'); },
+    set: set,
+    toggle: function () { set(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light'); }
+  };
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-theme-toggle]');
+    if (b) { e.preventDefault(); window.KalaTheme.toggle(); }
+  });
+  document.addEventListener('DOMContentLoaded', function () { metaColor(theme); syncButtons(theme); });
+})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/theme.css">
-  <link rel="stylesheet" href="assets/footer.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap"></noscript>
+  <style>/* Kala Art Wrap — theme tokens shared by every public page.
+   Dark is the brand default; html[data-theme="light"] swaps the palette. */
+:root, html[data-theme="dark"] {
+  --fg-rgb: 251 241 234;     /* cream ink */
+  --bg-rgb: 18 9 11;         /* wine-black surface */
+  --line-rgb: 255 211 220;   /* blush hairlines */
+  --gold-rgb: 217 176 122;
+  --surface-2: #170b0e;
+  --surface-3: #1d0e13;
+  --card-a: #26121a;
+  --card-b: #140a0d;
+  --glow: rgba(140, 22, 49, .42);
+  --shadow-rgb: 0 0 0;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --surface: #f7efe9;
+  --surface-2: #f3e7e0;
+  --surface-3: #efe0d8;
+  --card-a: #fffaf7;
+  --card-b: #f5e9e3;
+  --ink: #2b1318;
+  --ink-soft: #4a2a31;
+  --ink-mute: rgba(43, 19, 24, .68);
+  --blush: #b8325a;
+  --rose: #d04a70;
+  --wine: #8c1631;
+  --gold: #9a6c33;
+  --gold-soft: #86592a;
+  --line: rgba(140, 22, 49, .14);
+  --fg-rgb: 43 19 24;
+  --bg-rgb: 247 239 233;
+  --line-rgb: 140 22 49;
+  --gold-rgb: 154 108 51;
+  --glow: rgba(232, 113, 141, .28);
+  --shadow-rgb: 90 30 45;
+  color-scheme: light;
+}
+
+/* smooth cross-fade only while switching */
+html.theme-swap, html.theme-swap *, html.theme-swap *::before, html.theme-swap *::after {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease, fill .4s ease, stroke .4s ease !important;
+}
+
+/* ---------- header placement (flex headers) + mobile floating toggle ---------- */
+.head-end { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.head-end .pill { margin-left: 0 !important; }
+.m-theme { display: none !important; }
+@media (max-width: 900px), (max-aspect-ratio: 4 / 5) {
+  .site-head .theme-toggle, .hero-theme { display: none !important; }
+  .m-theme {
+    display: grid !important;
+    position: fixed !important;
+    z-index: 52;
+    top: max(16px, env(safe-area-inset-top));
+    right: 74px;
+    width: 48px !important;
+    height: 48px !important;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, .45);
+  }
+}
+
+/* ---------- shared light-theme touches ---------- */
+html[data-theme="light"] .display em { background-image: linear-gradient(180deg, #d04a70, #8c1631); }
+html[data-theme="light"] .brand img { filter: brightness(.62) saturate(1.5) drop-shadow(0 6px 16px rgba(140, 22, 49, .2)); }
+
+/* ---------- toggle button ---------- */
+.theme-toggle {
+  position: relative;
+  flex: none;
+  width: clamp(36px, 4.4dvh, 48px);
+  height: clamp(36px, 4.4dvh, 48px);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--line-rgb) / .28);
+  background: rgb(var(--fg-rgb) / .06);
+  color: var(--ink);
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: transform .4s cubic-bezier(.25, .8, .28, 1), background-color .3s, border-color .3s;
+}
+.theme-toggle:hover { transform: rotate(-12deg) scale(1.05); background: rgb(var(--fg-rgb) / .12); }
+.theme-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.theme-toggle svg {
+  position: absolute;
+  width: 46%;
+  height: 46%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .35s;
+}
+.theme-toggle .i-sun { transform: translateY(120%) rotate(90deg); opacity: 0; }
+.theme-toggle .i-moon { transform: none; opacity: 1; }
+html[data-theme="light"] .theme-toggle .i-sun { transform: none; opacity: 1; }
+html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) rotate(-90deg); opacity: 0; }</style>
+  <link rel="preload" href="assets/footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="assets/footer.css"></noscript>
   <link rel="stylesheet" href="assets/doc.css">
 </head>
 <body id="top">
   <header class="site-head">
     <a class="brand" href="/" aria-label="Kala Art Wrap — home">
-      <img src="assets/logo.webp" alt="कला logo" width="640" height="676">
+      <img src="assets/logo.webp" srcset="assets/logo-160.webp 160w, assets/logo.webp 360w" sizes="150px" alt="कला logo" width="640" height="676">
       <span>Kala Art Wrap</span>
     </a>
     <ul class="nav">
@@ -150,7 +293,7 @@
 
     <div class="sf-grid">
       <div class="sf-brand">
-        <img src="assets/logo.webp" alt="कला — Kala Art Wrap" width="640" height="676" loading="lazy">
+        <img src="assets/logo.webp" srcset="assets/logo-160.webp 160w, assets/logo.webp 360w" sizes="150px" alt="कला — Kala Art Wrap" width="640" height="676" loading="lazy">
         <p>Handmade satin ribbon bouquets that never fade — folded petal by petal in Jaipur, for the moments you want to keep forever.</p>
         <div class="sf-social">
           <a href="https://www.instagram.com/kala_art_wrap/" target="_blank" rel="noopener" aria-label="Instagram">

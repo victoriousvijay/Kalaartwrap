@@ -8,6 +8,8 @@
     linear-gradient(180deg, var(--surface) 0%, var(--surface-3) 100%);
   border-top: 1px solid var(--line);
   color: var(--ink);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
 }
 .sf-cta {
   max-width: 1400px;

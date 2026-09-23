@@ -29,15 +29,158 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["LocalBusiness","Florist"],"@id":"https://kalaartwrap.insporaone.in/#business","name":"Kala Art Wrap","alternateName":"कला Art Wrap","description":"Handmade satin ribbon bouquets (forever flowers) made to order in Jaipur. Fully customisable colours, shapes and extras, starting at ₹199 and ready in 3–5 days.","url":"https://kalaartwrap.insporaone.in/","logo":"https://kalaartwrap.insporaone.in/assets/logo.webp","image":"https://kalaartwrap.insporaone.in/assets/og-image.jpg","telephone":"+91-90243-27497","priceRange":"₹199+","currenciesAccepted":"INR","address":{"@type":"PostalAddress","addressLocality":"Jaipur","addressRegion":"Rajasthan","addressCountry":"IN"},"areaServed":{"@type":"City","name":"Jaipur"},"sameAs":["https://www.instagram.com/kala_art_wrap/"],"contactPoint":{"@type":"ContactPoint","telephone":"+91-90243-27497","contactType":"customer service","availableLanguage":["English","Hindi"]},"makesOffer":{"@type":"Offer","priceCurrency":"INR","price":"199","priceSpecification":{"@type":"PriceSpecification","minPrice":199,"priceCurrency":"INR"},"itemOffered":{"@type":"Product","name":"Custom satin ribbon bouquet","description":"Handmade forever-flower bouquet from satin ribbon — round, heart, square box, cone or single stem, with optional chocolates, name tag, pearls or fairy lights.","brand":{"@type":"Brand","name":"Kala Art Wrap"}}}},{"@type":"WebSite","@id":"https://kalaartwrap.insporaone.in/#website","url":"https://kalaartwrap.insporaone.in/","name":"Kala Art Wrap","inLanguage":"en-IN","publisher":{"@id":"https://kalaartwrap.insporaone.in/#business"}}]}</script>
   <!-- /SEO -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <script src="assets/theme.js"></script>
-  <link rel="stylesheet" href="assets/theme.css">
-  <link rel="stylesheet" href="assets/footer.css">
+  <script>/* Kala Art Wrap — light / dark theme.
+   Load this synchronously in <head> so the saved theme applies before first paint. */
+(function () {
+  var KEY = 'kala-theme';
+  var root = document.documentElement;
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var theme = saved === 'light' || saved === 'dark' ? saved : 'dark'; // brand default: dark
+  root.setAttribute('data-theme', theme);
+
+  function metaColor(t) {
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', t === 'light' ? '#f7efe9' : '#12090b');
+  }
+  function syncButtons(t) {
+    var btns = document.querySelectorAll('[data-theme-toggle]');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', String(t === 'light'));
+      btns[i].setAttribute('aria-label', t === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+      btns[i].title = t === 'light' ? 'Dark theme' : 'Light theme';
+    }
+  }
+  function set(t) {
+    root.classList.add('theme-swap');
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+    metaColor(t);
+    syncButtons(t);
+    setTimeout(function () { root.classList.remove('theme-swap'); }, 450);
+    window.dispatchEvent(new CustomEvent('kala:theme', { detail: t }));
+  }
+  window.KalaTheme = {
+    get: function () { return root.getAttribute('data-theme'); },
+    set: set,
+    toggle: function () { set(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light'); }
+  };
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-theme-toggle]');
+    if (b) { e.preventDefault(); window.KalaTheme.toggle(); }
+  });
+  document.addEventListener('DOMContentLoaded', function () { metaColor(theme); syncButtons(theme); });
+})();</script>
+  <style>/* Kala Art Wrap — theme tokens shared by every public page.
+   Dark is the brand default; html[data-theme="light"] swaps the palette. */
+:root, html[data-theme="dark"] {
+  --fg-rgb: 251 241 234;     /* cream ink */
+  --bg-rgb: 18 9 11;         /* wine-black surface */
+  --line-rgb: 255 211 220;   /* blush hairlines */
+  --gold-rgb: 217 176 122;
+  --surface-2: #170b0e;
+  --surface-3: #1d0e13;
+  --card-a: #26121a;
+  --card-b: #140a0d;
+  --glow: rgba(140, 22, 49, .42);
+  --shadow-rgb: 0 0 0;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --surface: #f7efe9;
+  --surface-2: #f3e7e0;
+  --surface-3: #efe0d8;
+  --card-a: #fffaf7;
+  --card-b: #f5e9e3;
+  --ink: #2b1318;
+  --ink-soft: #4a2a31;
+  --ink-mute: rgba(43, 19, 24, .68);
+  --blush: #b8325a;
+  --rose: #d04a70;
+  --wine: #8c1631;
+  --gold: #9a6c33;
+  --gold-soft: #86592a;
+  --line: rgba(140, 22, 49, .14);
+  --fg-rgb: 43 19 24;
+  --bg-rgb: 247 239 233;
+  --line-rgb: 140 22 49;
+  --gold-rgb: 154 108 51;
+  --glow: rgba(232, 113, 141, .28);
+  --shadow-rgb: 90 30 45;
+  color-scheme: light;
+}
+
+/* smooth cross-fade only while switching */
+html.theme-swap, html.theme-swap *, html.theme-swap *::before, html.theme-swap *::after {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease, fill .4s ease, stroke .4s ease !important;
+}
+
+/* ---------- header placement (flex headers) + mobile floating toggle ---------- */
+.head-end { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.head-end .pill { margin-left: 0 !important; }
+.m-theme { display: none !important; }
+@media (max-width: 900px), (max-aspect-ratio: 4 / 5) {
+  .site-head .theme-toggle, .hero-theme { display: none !important; }
+  .m-theme {
+    display: grid !important;
+    position: fixed !important;
+    z-index: 52;
+    top: max(16px, env(safe-area-inset-top));
+    right: 74px;
+    width: 48px !important;
+    height: 48px !important;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, .45);
+  }
+}
+
+/* ---------- shared light-theme touches ---------- */
+html[data-theme="light"] .display em { background-image: linear-gradient(180deg, #d04a70, #8c1631); }
+html[data-theme="light"] .brand img { filter: brightness(.62) saturate(1.5) drop-shadow(0 6px 16px rgba(140, 22, 49, .2)); }
+
+/* ---------- toggle button ---------- */
+.theme-toggle {
+  position: relative;
+  flex: none;
+  width: clamp(36px, 4.4dvh, 48px);
+  height: clamp(36px, 4.4dvh, 48px);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--line-rgb) / .28);
+  background: rgb(var(--fg-rgb) / .06);
+  color: var(--ink);
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: transform .4s cubic-bezier(.25, .8, .28, 1), background-color .3s, border-color .3s;
+}
+.theme-toggle:hover { transform: rotate(-12deg) scale(1.05); background: rgb(var(--fg-rgb) / .12); }
+.theme-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.theme-toggle svg {
+  position: absolute;
+  width: 46%;
+  height: 46%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .35s;
+}
+.theme-toggle .i-sun { transform: translateY(120%) rotate(90deg); opacity: 0; }
+.theme-toggle .i-moon { transform: none; opacity: 1; }
+html[data-theme="light"] .theme-toggle .i-sun { transform: none; opacity: 1; }
+html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) rotate(-90deg); opacity: 0; }</style>
+  <link rel="preload" href="assets/footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="assets/footer.css"></noscript>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=block" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap"></noscript>
 
-  <link rel="preload" as="image" href="assets/lily-front.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/lily-front.webp" imagesrcset="assets/lily-front-560.webp 560w, assets/lily-front-760.webp 760w, assets/lily-front.webp 1060w" imagesizes="(max-width: 900px) 92vw, 46vw" fetchpriority="high">
 
   <style>
     /* ============================================================
@@ -387,8 +530,8 @@
       padding: 0 .08em .12em;
       margin: 0 -.08em -.12em;
     }
-    .anim .kala-word__inner { animation: orb-word 1150ms var(--orb-reveal) 300ms both; }
-    .anim .flower { animation: orb-subject 1150ms var(--orb-reveal) 660ms both; }
+    .anim .kala-word__inner { animation: orb-word 950ms var(--orb-reveal) 80ms both; }
+    .anim .flower { animation: orb-subject 900ms var(--orb-reveal) 220ms both; }
     .anim .support-copy__inner,
     .anim .scroll-cue,
     .anim .hero-m__inner { animation: orb-corner 720ms var(--orb-soft) 980ms both; }
@@ -980,8 +1123,8 @@
       .menu-open .menu-sheet { opacity: 1; transform: none; pointer-events: auto; }
 
       .anim .burger { animation: orb-quiet 600ms var(--orb-soft) 220ms both; }
-      .anim .kala-word__inner { animation-delay: 240ms; }
-      .anim .flower { animation-delay: 560ms; }
+      .anim .kala-word__inner { animation-delay: 60ms; }
+      .anim .flower { animation-delay: 180ms; }
       .anim .support-copy__inner, .anim .hero-m__inner, .anim .scroll-cue { animation-delay: 860ms; }
 
       .process-intro { grid-template-columns: 1fr; gap: 26px; padding-bottom: 6vh; }
@@ -1095,7 +1238,7 @@
     .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
     /* ---------- about (answer-first passage for search & AI answers) ---------- */
-    .about { padding: 4vh 4vw 16vh; background: var(--surface); }
+    .about { padding: 4vh 4vw 16vh; background: var(--surface); content-visibility: auto; contain-intrinsic-size: auto 700px; }
     .about__inner { max-width: 880px; margin: 0 auto; text-align: center; display: grid; justify-items: center; gap: 18px; }
     .about__title { margin: 0; font-family: var(--f-serif); font-weight: 500; font-size: clamp(34px, 3.6vw, 60px); line-height: 1.05; }
     .about__title em { font-style: italic; color: var(--blush); }
@@ -1149,7 +1292,8 @@
     /* light theme touches */
     html[data-theme="light"] .kala-word__rose { background-image: linear-gradient(180deg, #f08aa6 0%, #d04a70 55%, #8c1631 100%); }
     html[data-theme="light"] .process-title em { background-image: linear-gradient(180deg, #d04a70, #8c1631); }
-    html[data-theme="light"] .loader__word { background-image: linear-gradient(180deg, #b8325a, #8c1631); }
+    html[data-theme="light"] .loader__word .lw-a { stop-color: #b8325a; }
+    html[data-theme="light"] .loader__word .lw-b { stop-color: #8c1631; }
     html[data-theme="light"] .deliver__big { background-image: linear-gradient(180deg, #d04a70, #8c1631); }
     html[data-theme="light"] .grain { opacity: .035; }
     html[data-theme="light"] .brand-logo,
@@ -1385,17 +1529,17 @@
       height: auto;
       overflow: visible;
       transform-origin: 50% 100%;
-      animation: lb-sway 2.8s ease-in-out 2.7s infinite alternate;
+      animation: lb-sway 2.8s ease-in-out 1.5s infinite alternate;
     }
     .lb-wrap-back, .lb-wrap-front, .lb-rose, .lb-bow, .lb-dot, .lb-leaf {
       transform-box: fill-box;
     }
-    .lb-wrap-back { transform-origin: 50% 100%; animation: lb-grow .8s var(--orb-reveal) .1s both; }
-    .lb-leaf { transform-origin: 50% 100%; animation: lb-grow .7s var(--orb-reveal) both; animation-delay: calc(.45s + var(--d) * .08s); }
+    .lb-wrap-back { transform-origin: 50% 100%; animation: lb-grow .5s var(--orb-reveal) .05s both; }
+    .lb-leaf { transform-origin: 50% 100%; animation: lb-grow .45s var(--orb-reveal) both; animation-delay: calc(.25s + var(--d) * .05s); }
     .lb-rose {
       transform-origin: center;
-      animation: lb-fly .9s cubic-bezier(.22, 1.3, .4, 1) both;
-      animation-delay: calc(.6s + var(--d) * .14s);
+      animation: lb-fly .6s cubic-bezier(.22, 1.3, .4, 1) both;
+      animation-delay: calc(.3s + var(--d) * .08s);
     }
     .lb-rose .spiral {
       fill: none;
@@ -1405,11 +1549,11 @@
       stroke-dasharray: 70;
       stroke-dashoffset: 70;
       animation: lb-draw .8s ease-out forwards;
-      animation-delay: calc(1s + var(--d) * .14s);
+      animation-delay: calc(.55s + var(--d) * .08s);
     }
-    .lb-dot { transform-origin: center; animation: lb-twinkle .55s ease both; animation-delay: calc(1.7s + var(--d) * .05s); }
-    .lb-wrap-front { transform-origin: 50% 100%; animation: lb-front .8s var(--orb-reveal) 1.85s both; }
-    .lb-bow { transform-origin: center; animation: lb-pop .7s cubic-bezier(.34, 1.8, .5, 1) 2.25s both; }
+    .lb-dot { transform-origin: center; animation: lb-twinkle .55s ease both; animation-delay: calc(.95s + var(--d) * .03s); }
+    .lb-wrap-front { transform-origin: 50% 100%; animation: lb-front .5s var(--orb-reveal) 1s both; }
+    .lb-bow { transform-origin: center; animation: lb-pop .5s cubic-bezier(.34, 1.8, .5, 1) 1.25s both; }
 
     @keyframes lb-grow { from { transform: scaleY(0); opacity: 0; } to { transform: none; opacity: 1; } }
     @keyframes lb-fly {
@@ -1423,17 +1567,11 @@
     @keyframes lb-pop { from { transform: scale(0) rotate(-35deg); opacity: 0; } to { transform: none; opacity: 1; } }
     @keyframes lb-sway { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
 
-    .loader__word {
-      margin: 6px 0 0;
-      font-family: var(--f-deva);
-      font-size: 40px;
-      line-height: 1.1;
-      background: linear-gradient(180deg, #fff3ec, var(--gold));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: orb-dim .8s var(--orb-soft) .2s both;
-    }
+    /* SVG text on purpose: keeps the loading screen out of the LCP measurement */
+    .loader__word { display: block; width: 120px; height: 50px; margin: 6px 0 0; overflow: visible; animation: orb-dim .8s var(--orb-soft) .2s both; }
+    .loader__word text { font-family: var(--f-deva); font-size: 40px; }
+    .loader__word .lw-a { stop-color: #fff3ec; }
+    .loader__word .lw-b { stop-color: #d9b07a; }
     .loader__status {
       display: flex;
       align-items: baseline;
@@ -1526,7 +1664,7 @@
           </g>
         </g>
       </svg>
-      <p class="loader__word" aria-hidden="true">कला</p>
+      <svg class="loader__word" viewBox="0 0 120 50" aria-hidden="true"><defs><linearGradient id="lwGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="lw-a"/><stop offset="1" class="lw-b"/></linearGradient></defs><text x="60" y="38" text-anchor="middle" fill="url(#lwGrad)">कला</text></svg>
       <p class="loader__status"><span class="loader__msg">Choosing the ribbons</span><span class="loader__pct">0%</span></p>
       <div class="loader__bar" aria-hidden="true"><i></i></div>
     </div>
@@ -1539,8 +1677,12 @@
     const msgEl = loader.querySelector('.loader__msg');
     const bar = loader.querySelector('.loader__bar i');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const MIN = reduce ? 400 : 2900;   // let the bouquet finish assembling
+    const MIN = reduce ? 300 : 1600;   // let the bouquet finish assembling
     const MAX = 8000;                   // never hold the page hostage
+    // only the first page view of a visit gets the full loader
+    let seen = false;
+    try { seen = sessionStorage.getItem('kala-loaded') === '1'; sessionStorage.setItem('kala-loaded', '1'); } catch (e) {}
+    if (seen) { loader.remove(); root.classList.remove('loading'); return; }
     const msgs = [[0, 'Choosing the ribbons'], [35, 'Folding the petals'], [70, 'Tying the bow'], [96, 'Ready with love']];
     const t0 = performance.now();
     // ready = fonts + the visible hero lily (not the heavy hover-reveal image)
@@ -1580,7 +1722,7 @@
     <section class="stage" aria-labelledby="kala-title">
 
       <a class="brand" href="#home" aria-label="Kala Art Wrap — home">
-        <img class="brand-logo" src="assets/logo.webp" alt="कला logo" width="640" height="676">
+        <img class="brand-logo" src="assets/logo.webp" srcset="assets/logo-160.webp 160w, assets/logo.webp 360w" sizes="150px" alt="कला logo" width="640" height="676">
         <span class="brand-name">Kala Art Wrap</span>
       </a>
 
@@ -1609,12 +1751,12 @@
 
       <div class="flower-rig">
         <div class="flower" id="flower">
-          <img class="flower__sizer" src="assets/lily-front.webp" alt="" aria-hidden="true" width="1060" height="1201">
+          <img class="flower__sizer" src="assets/lily-front.webp" srcset="assets/lily-front-560.webp 560w, assets/lily-front-760.webp 760w, assets/lily-front.webp 1060w" sizes="(max-width: 900px) 92vw, 46vw" alt="" aria-hidden="true" width="1060" height="1201">
           <div class="flower__layer flower__layer--bg">
-            <img src="assets/lily-front.webp" alt="Pixel-art pink and violet lily" width="1060" height="1201" fetchpriority="high">
+            <img src="assets/lily-front.webp" srcset="assets/lily-front-560.webp 560w, assets/lily-front-760.webp 760w, assets/lily-front.webp 1060w" sizes="(max-width: 900px) 92vw, 46vw" alt="Pixel-art pink and violet lily" width="1060" height="1201" fetchpriority="high">
           </div>
           <div class="flower__layer flower__layer--top" aria-hidden="true">
-            <img src="assets/lily-reveal.webp" alt="" decoding="async" width="1060" height="1193">
+            <img src="assets/lily-reveal.webp" srcset="assets/lily-reveal-560.webp 560w, assets/lily-reveal-760.webp 760w, assets/lily-reveal.webp 1060w" sizes="(max-width: 900px) 92vw, 46vw" alt="" decoding="async" width="1060" height="1193">
           </div>
         </div>
       </div>
@@ -1713,7 +1855,7 @@
                 <div class="bubble bubble--me">Hi! I want a bouquet for my sister's birthday 🎂</div>
                 <div class="bubble bubble--them">Aww, lovely! 💖 Which colours does she like?</div>
                 <div class="bubble bubble--me">Pink &amp; white… budget around ₹499</div>
-                <div class="bubble bubble--them typing" aria-label="typing"><span></span><span></span><span></span></div>
+                <div class="bubble bubble--them typing" aria-hidden="true"><span></span><span></span><span></span></div>
               </div>
             </div>
           </article>
@@ -1876,7 +2018,7 @@
 
           <!-- end -->
           <div class="process-end" id="order">
-            <img class="process-end__logo" src="assets/logo.webp" alt="" width="640" height="676">
+            <img class="process-end__logo" src="assets/logo.webp" srcset="assets/logo-160.webp 160w, assets/logo.webp 360w" sizes="150px" alt="" width="640" height="676">
             <h3>Your forever bouquet begins with <em>one message.</em></h3>
             <div class="cta-row">
               <a class="btn btn--solid" href="https://wa.me/919024327497?text=Hi%20Kala%20Art%20Wrap!%20I%27d%20like%20to%20order%20a%20forever%20bouquet." target="_blank" rel="noopener">
@@ -1923,7 +2065,7 @@
         <a class="btn btn--solid" href="/gallery">Explore gallery <span aria-hidden="true">→</span></a>
       </div>
       <div class="moments__wall">
-        <div class="masonry" id="masonry" role="list" aria-label="Bouquet moments"></div>
+        <div class="masonry" id="masonry" aria-label="Bouquet moments"></div>
         <div class="moments__fade">
           <a class="btn btn--solid moments__cta" href="/gallery">Explore the full gallery <span aria-hidden="true">→</span></a>
         </div>
@@ -1997,7 +2139,7 @@
 
     <div class="sf-grid">
       <div class="sf-brand">
-        <img src="assets/logo.webp" alt="कला — Kala Art Wrap" width="640" height="676" loading="lazy">
+        <img src="assets/logo.webp" srcset="assets/logo-160.webp 160w, assets/logo.webp 360w" sizes="150px" alt="कला — Kala Art Wrap" width="640" height="676" loading="lazy">
         <p>Handmade satin ribbon bouquets that never fade — folded petal by petal in Jaipur, for the moments you want to keep forever.</p>
         <div class="sf-social">
           <a href="https://www.instagram.com/kala_art_wrap/" target="_blank" rel="noopener" aria-label="Instagram">
@@ -2058,6 +2200,16 @@
   <script>
   (() => {
     const root = document.documentElement;
+
+    // coalesce ScrollTrigger refreshes (fonts, load, loader) into one idle-time pass
+    let refreshT = 0;
+    window.KalaRefresh = () => {
+      clearTimeout(refreshT);
+      refreshT = setTimeout(() => {
+        const run = () => window.ScrollTrigger && ScrollTrigger.refresh();
+        (window.requestIdleCallback || setTimeout)(run, { timeout: 600 });
+      }, 180);
+    };
 
     /* ---------- entrance: drop .anim once, never replay ---------- */
     (() => {
@@ -2203,7 +2355,7 @@
         h = flower.offsetHeight;
         layers.forEach(l => l.resize(w, h));
       };
-      measure();
+      // ResizeObserver fires once on observe, so no eager measure (avoids a forced reflow)
       new ResizeObserver(measure).observe(flower);
 
       const toLocal = (clientX, clientY) => {
@@ -2264,6 +2416,8 @@
       if (!window.gsap || !window.ScrollTrigger) return;
       const { gsap, ScrollTrigger } = window;
       gsap.registerPlugin(ScrollTrigger);
+      // we refresh ourselves (KalaRefresh) — skip the built-in load refresh
+      ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,DOMContentLoaded,resize' });
       root.classList.add('gsap-ok');
 
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2280,7 +2434,7 @@
       addEventListener('kala:loaded', () => {
         lenis?.start();
         window.scrollTo(0, 0);
-        ScrollTrigger.refresh();
+        window.KalaRefresh();
       }, { once: true });
       document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', e => {
@@ -2515,8 +2669,9 @@
       gsap.from('.sf-word', { yPercent: 40, opacity: 0, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: '.sf-word', start: 'top 95%' } });
 
       // fonts/images change layout → re-measure
-      document.fonts?.ready.then(() => ScrollTrigger.refresh());
-      window.addEventListener('load', () => ScrollTrigger.refresh());
+      // one debounced, idle-time refresh instead of several full-page re-measures
+      document.fonts?.ready.then(() => window.KalaRefresh());
+      window.addEventListener('load', () => window.KalaRefresh());
     });
   })();
   </script>
@@ -2713,7 +2868,7 @@
       ['1599791095997-5cf38bb5ff69', 720, 'Tied with love']
     ].map(([id, height, label]) => ({
       id, height, label,
-      img: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&h=${Math.round(height * 1.2)}&q=75`
+      img: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${innerWidth < 700 ? 360 : 520}&h=${Math.round(height * (innerWidth < 700 ? .72 : 1.04))}&q=70`
     }));
 
     const OPTS = { ease: 'power3.out', duration: 0.6, stagger: 0.05, animateFrom: 'bottom', scaleOnHover: true, hoverScale: 0.95, blurToFocus: true };
@@ -2728,9 +2883,8 @@
       const el = document.createElement('a');
       el.className = 'masonry-item';
       el.href = 'gallery.html';
-      el.setAttribute('role', 'listitem');
       el.setAttribute('aria-label', `${item.label} — open the gallery`);
-      el.innerHTML = `<div class="masonry-img" data-label="${item.label}" style="background-image:url('${item.img}')"></div>`;
+      el.innerHTML = `<div class="masonry-img" data-label="${item.label}"></div>`;
       root.appendChild(el);
       return el;
     });
@@ -2812,9 +2966,16 @@
     const start = () => {
       place(false);
       // preload, then reveal when the wall enters the viewport
-      const ready = Promise.all(MOMENTS.slice(0, 10).map(m => new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = m.img; })));
+      // photos start downloading only when the wall is ~1 screen away
+      let ready = null;
+      const loadPhotos = () => {
+        if (ready) return ready;
+        els.forEach((el, i) => { el.firstElementChild.style.backgroundImage = `url('${MOMENTS[i].img}')`; });
+        return (ready = Promise.all(MOMENTS.slice(0, 8).map(m => new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = m.img; }))));
+      };
+      new IntersectionObserver((en, io) => { if (en.some(e => e.isIntersecting)) { io.disconnect(); loadPhotos(); } }, { rootMargin: '1200px 0px' }).observe(root);
       new IntersectionObserver((entries, io) => {
-        if (entries.some(e => e.isIntersecting)) { io.disconnect(); ready.then(reveal); }
+        if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadPhotos().then(reveal); }
       }, { rootMargin: '0px 0px -20% 0px' }).observe(root);
       let lastW = root.clientWidth;
       new ResizeObserver(() => { if (root.clientWidth !== lastW) { lastW = root.clientWidth; place(true); } }).observe(root);

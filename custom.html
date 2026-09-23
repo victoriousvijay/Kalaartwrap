@@ -560,11 +560,6 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
                 <div class="swatches" role="radiogroup" aria-label="Ribbon colour" id="o-ribbon"></div>
                 <div class="sw-label" id="l-ribbon"></div>
               </div>
-              <div class="section">
-                <h3>Paper edge</h3>
-                <div class="swatches" role="radiogroup" aria-label="Paper edge" id="o-trim"></div>
-                <div class="sw-label" id="l-trim"></div>
-              </div>
             </div>
             <!-- 4 extras -->
             <div class="tabpanel" role="tabpanel" id="p-extras" aria-labelledby="t-extras" hidden>
@@ -754,14 +749,14 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
       ['leaves', '🌿', 'Greenery', 'Fresh leaves around']
     ];
     const PRESETS = [
-      { name: 'Kala signature', sw: '#c1121f', s: { shape: 'round', flower: 'rose', colors: ['red'], count: 12, wrap: 'black', ribbon: 'red', trim: 'gold', scene: 'wine', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: false, sparkles: true, leaves: true } } },
-      { name: 'Blush dream', sw: '#f2a2b6', s: { shape: 'heart', flower: 'rose', colors: ['blush', 'baby', 'ivory'], count: 16, wrap: 'white', ribbon: 'blush', trim: 'gold', scene: 'blush', extras: { babys: true, pearls: true, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: false } } },
+      { name: 'Kala signature', sw: '#c1121f', s: { shape: 'round', flower: 'rose', colors: ['red'], count: 12, wrap: 'black', ribbon: 'red', trim: 'none', scene: 'wine', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: false, sparkles: true, leaves: true } } },
+      { name: 'Blush dream', sw: '#f2a2b6', s: { shape: 'heart', flower: 'rose', colors: ['blush', 'baby', 'ivory'], count: 16, wrap: 'white', ribbon: 'blush', trim: 'none', scene: 'blush', extras: { babys: true, pearls: true, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: false } } },
       { name: 'Choco love', sw: '#7a0f2b', s: { shape: 'round', flower: 'rose', colors: ['wine', 'ivory'], count: 9, wrap: 'kraft', ribbon: 'wine', trim: 'none', scene: 'cream', extras: { babys: true, pearls: false, lights: false, chocolates: true, butterflies: false, sparkles: false, leaves: true } } },
-      { name: 'Royal night', sw: '#2b4bb3', s: { shape: 'box', flower: 'rose', colors: ['royal', 'ivory'], count: 12, wrap: 'white', ribbon: 'royal', trim: 'silver', scene: 'midnight', extras: { babys: true, pearls: true, lights: true, chocolates: false, butterflies: false, sparkles: true, leaves: false } } },
-      { name: 'Lavender', sw: '#b79be0', s: { shape: 'cone', flower: 'rose', colors: ['lavender', 'baby'], count: 7, wrap: 'lilac', ribbon: 'white', trim: 'silver', scene: 'blush', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: true } } },
-      { name: 'One true love', sw: '#7a0f2b', s: { shape: 'stem', flower: 'rose', colors: ['wine'], count: 1, wrap: 'black', ribbon: 'gold', trim: 'gold', scene: 'wine', extras: { babys: true, pearls: true, lights: false, chocolates: false, butterflies: false, sparkles: true, leaves: true } } },
+      { name: 'Royal night', sw: '#2b4bb3', s: { shape: 'box', flower: 'rose', colors: ['royal', 'ivory'], count: 12, wrap: 'white', ribbon: 'royal', trim: 'none', scene: 'midnight', extras: { babys: true, pearls: true, lights: true, chocolates: false, butterflies: false, sparkles: true, leaves: false } } },
+      { name: 'Lavender', sw: '#b79be0', s: { shape: 'cone', flower: 'rose', colors: ['lavender', 'baby'], count: 7, wrap: 'lilac', ribbon: 'white', trim: 'none', scene: 'blush', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: true } } },
+      { name: 'One true love', sw: '#7a0f2b', s: { shape: 'stem', flower: 'rose', colors: ['wine'], count: 1, wrap: 'black', ribbon: 'gold', trim: 'none', scene: 'wine', extras: { babys: true, pearls: true, lights: false, chocolates: false, butterflies: false, sparkles: true, leaves: true } } },
       { name: 'Sunshine', sw: '#f2c94c', s: { shape: 'round', flower: 'daisy', colors: ['ivory', 'sunny'], count: 14, wrap: 'kraft', ribbon: 'white', trim: 'none', scene: 'sage', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: true, sparkles: false, leaves: true } } },
-      { name: 'Peach garden', sw: '#f6ae8a', s: { shape: 'cone', flower: 'rose', colors: ['peach', 'blush', 'ivory'], count: 9, wrap: 'sage', ribbon: 'blush', trim: 'gold', scene: 'cream', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: false, sparkles: false, leaves: true } } }
+      { name: 'Peach garden', sw: '#f6ae8a', s: { shape: 'cone', flower: 'rose', colors: ['peach', 'blush', 'ivory'], count: 9, wrap: 'sage', ribbon: 'blush', trim: 'none', scene: 'cream', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: false, sparkles: false, leaves: true } } }
     ];
 
     const byId = (list, id) => list.find(x => x[0] === id || x.id === id);
@@ -1495,7 +1490,6 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
       const sw = ([id, label, hex]) => `<button class="sw" role="radio" data-v="${id}" style="--c:${hex === 'transparent' ? 'repeating-linear-gradient(45deg,#ddd 0 4px,#fff 4px 8px)' : hex}" aria-label="${label}" title="${label}"></button>`;
       radioGroup($('#o-wrap'), WRAPS, 'wrap', sw, '#l-wrap');
       radioGroup($('#o-ribbon'), RIBBONS, 'ribbon', sw, '#l-ribbon');
-      radioGroup($('#o-trim'), TRIMS, 'trim', sw, '#l-trim');
       $('#o-scene').innerHTML = SCENES.map(([id, label, [a, b]]) => `<button class="sw" role="radio" data-v="${id}" style="--c:linear-gradient(135deg, ${a}, ${b})" aria-label="${label}" title="${label}"></button>`).join('');
       $('#o-scene').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; state.scene = b.dataset.v; sync(); redraw(false); });
 
@@ -1530,7 +1524,7 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
       mark('#o-flower', state.flower);
       mark('#o-wrap', state.wrap); $('#l-wrap').textContent = byId(WRAPS, state.wrap)[1];
       mark('#o-ribbon', state.ribbon); $('#l-ribbon').textContent = byId(RIBBONS, state.ribbon)[1];
-      mark('#o-trim', state.trim); $('#l-trim').textContent = byId(TRIMS, state.trim)[1];
+
       mark('#o-scene', state.scene); $('#l-scene').textContent = byId(SCENES, state.scene)[1];
       mark('#o-colors', state.colors); $('#l-colors').textContent = state.colors.map(id => byId(FLOWER_COLORS, id)[1]).join(' · ');
       document.querySelectorAll('#o-extras [data-v]').forEach(b => b.setAttribute('aria-checked', String(!!state.extras[b.dataset.v])));
@@ -1550,7 +1544,7 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
         short: `${shape} bouquet · ${n} ${cols} ${flower.toLowerCase()}${n > 1 ? 's' : ''}`,
         lines: [
           `Shape: ${shape}`, `Flowers: ${n} × ${flower} (${cols})`,
-          `Wrap: ${byId(WRAPS, state.wrap)[1]} paper, ${byId(RIBBONS, state.ribbon)[1]} ribbon, ${byId(TRIMS, state.trim)[1]}`,
+          `Wrap: ${byId(WRAPS, state.wrap)[1]} paper, ${byId(RIBBONS, state.ribbon)[1]} ribbon`,
           `Extras: ${extras.length ? extras.join(', ') : 'none'}`,
           state.name ? `Name tag: ${state.name}` : '', state.note ? `Note: "${state.note}"${state.from ? ` — ${state.from}` : ''}` : ''
         ].filter(Boolean)
@@ -1577,7 +1571,6 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
       state.count = state.shape === 'stem' ? 1 + Math.floor(r() * 3) : 7 + Math.floor(r() * 12);
       state.wrap = pick(WRAPS, r)[0];
       state.ribbon = pick(RIBBONS, r)[0];
-      state.trim = pick(TRIMS, r)[0];
       state.scene = pick(SCENES, r)[0];
       EXTRAS.forEach(([id]) => { state.extras[id] = r() > .55; });
       state.extras.babys = true;

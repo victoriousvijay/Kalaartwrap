@@ -1,0 +1,7 @@
+# local-only files — not part of the website
+serve.js
+.claude
+assets/logo.png
+assets/logo-source.webp
+assets/lotus.png
+assets/src

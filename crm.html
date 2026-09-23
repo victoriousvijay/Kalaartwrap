@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f7f2ee">
+  <title>Kala CRM</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f2ee;
+      --panel: #ffffff;
+      --panel-2: #fbf8f6;
+      --ink: #2a1419;
+      --ink-2: #4a3439;
+      --mute: #86707a;
+      --line: #ebe1dc;
+      --line-2: #f1eae6;
+      --wine: #8c1631;
+      --wine-2: #a8203f;
+      --rose: #e8718d;
+      --blush: #fde7ec;
+      --gold: #b98a4e;
+      --danger: #c0392b;
+      --ok: #1f9d55;
+      --shadow: 0 1px 2px rgba(42, 20, 25, .05), 0 8px 24px -12px rgba(42, 20, 25, .15);
+      --shadow-lg: 0 30px 80px -20px rgba(42, 20, 25, .35);
+      --r: 14px;
+      --f-sans: "Jost", system-ui, sans-serif;
+      --f-serif: "Cormorant Garamond", Georgia, serif;
+      --f-deva: "Rozha One", serif;
+      --s-new: #2563eb;       --s-new-bg: #e8effd;
+      --s-contacted: #b45309; --s-contacted-bg: #fdf1e2;
+      --s-designing: #7c3aed; --s-designing-bg: #f0e9fd;
+      --s-confirmed: #15803d; --s-confirmed-bg: #e5f5ea;
+      --s-delivered: #0f766e; --s-delivered-bg: #e1f3f1;
+      --s-lost: #6b7280;      --s-lost-bg: #eeeff1;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { font-family: var(--f-sans); font-size: 14px; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+    /* ---------- buttons / inputs ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 38px; padding: 0 14px; border-radius: 10px;
+      border: 1px solid var(--line); background: var(--panel); cursor: pointer;
+      font-weight: 500; white-space: nowrap; text-decoration: none;
+      transition: background-color .15s, border-color .15s, transform .15s, box-shadow .15s;
+    }
+    .btn:hover { border-color: #d9cbc5; background: var(--panel-2); }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus-visible, .input:focus-visible, .chip:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+    .btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+    .btn--primary { background: var(--wine); border-color: var(--wine); color: #fff; }
+    .btn--primary:hover { background: var(--wine-2); border-color: var(--wine-2); }
+    .btn--wa { background: #1f9d55; border-color: #1f9d55; color: #fff; }
+    .btn--wa:hover { background: #188a49; border-color: #188a49; }
+    .btn--ghost { background: transparent; border-color: transparent; }
+    .btn--ghost:hover { background: rgba(42, 20, 25, .05); border-color: transparent; }
+    .btn--danger { color: var(--danger); }
+    .btn--sm { height: 32px; padding: 0 10px; font-size: 13px; border-radius: 8px; }
+    .btn--icon { width: 38px; padding: 0; }
+    .btn--sm.btn--icon { width: 32px; }
+    .btn[disabled] { opacity: .55; cursor: not-allowed; }
+    .input {
+      width: 100%; height: 40px; padding: 0 12px;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .input:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px rgba(232, 113, 141, .18); }
+    textarea.input { height: auto; min-height: 84px; padding: 10px 12px; resize: vertical; line-height: 1.5; }
+    select.input { padding-right: 30px; }
+    label.lbl { display: block; margin: 0 0 6px; font-size: 12px; font-weight: 500; color: var(--mute); letter-spacing: .02em; }
+
+    /* ---------- auth ---------- */
+    .auth {
+      min-height: 100%;
+      display: grid; place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(60% 50% at 80% 0%, rgba(232, 113, 141, .18), transparent 70%),
+        radial-gradient(50% 50% at 0% 100%, rgba(185, 138, 78, .14), transparent 70%),
+        var(--bg);
+    }
+    .auth-card { width: min(100%, 420px); background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 32px 28px; box-shadow: var(--shadow-lg); }
+    .auth-card .logo { display: flex; justify-content: center; margin-bottom: 8px; }
+    .auth-card .logo span { font-family: var(--f-deva); font-size: 52px; line-height: 1; background: linear-gradient(180deg, #b98a4e, #8c1631); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .auth-card h1 { margin: 0; text-align: center; font-family: var(--f-serif); font-weight: 600; font-size: 30px; }
+    .auth-card .sub { margin: 4px 0 24px; text-align: center; color: var(--mute); }
+    .auth-card form { display: grid; gap: 14px; }
+    .auth-card .btn--primary { height: 46px; margin-top: 6px; font-size: 15px; }
+    .auth-msg { min-height: 20px; font-size: 13px; color: var(--danger); text-align: center; }
+    .auth-foot { margin-top: 18px; text-align: center; font-size: 12px; color: var(--mute); }
+    .auth-foot a { color: var(--wine); }
+
+    /* ---------- app shell ---------- */
+    .app { min-height: 100%; display: flex; flex-direction: column; }
+    .top {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 20px;
+      background: rgba(247, 242, 238, .88);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .brandmark { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brandmark b { font-family: var(--f-deva); font-weight: 400; font-size: 28px; line-height: 1; color: var(--wine); }
+    .brandmark span { font-family: var(--f-serif); font-weight: 600; font-size: 20px; }
+    .brandmark small { display: block; font-family: var(--f-sans); font-size: 11px; font-weight: 400; color: var(--mute); letter-spacing: .06em; }
+    .search { position: relative; flex: 1; max-width: 420px; margin-left: 12px; }
+    .search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--mute); fill: none; stroke-width: 2; }
+    .search .input { padding-left: 36px; padding-right: 36px; background: var(--panel); }
+    .search kbd { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font: 11px var(--f-sans); color: var(--mute); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+    .top .spacer { flex: 1; }
+    .me { position: relative; }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; border: 0; cursor: pointer; background: linear-gradient(135deg, #e8718d, #8c1631); color: #fff; font-weight: 600; }
+    .menu {
+      position: absolute; right: 0; top: calc(100% + 8px); min-width: 220px; z-index: 40;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-lg); padding: 6px;
+    }
+    .menu .who { padding: 10px 12px 12px; border-bottom: 1px solid var(--line-2); margin-bottom: 6px; }
+    .menu .who b { display: block; }
+    .menu .who span { font-size: 12px; color: var(--mute); }
+    .menu button { width: 100%; text-align: left; border: 0; background: none; padding: 9px 12px; border-radius: 8px; cursor: pointer; }
+    .menu button:hover { background: var(--panel-2); }
+
+    main.body { padding: 20px; display: grid; gap: 18px; min-width: 0; }
+    main.body > * { min-width: 0; }
+    .greeting { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+    .greeting h2 { margin: 0; font-family: var(--f-serif); font-weight: 600; font-size: 30px; }
+    .greeting p { margin: 2px 0 0; color: var(--mute); }
+    .greeting .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .stat {
+      position: relative; overflow: hidden;
+      padding: 16px 16px 14px; border-radius: var(--r);
+      background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow);
+      text-align: left; cursor: pointer; border-top: 3px solid var(--c, var(--line));
+      transition: transform .15s, box-shadow .15s;
+    }
+    .stat:hover { transform: translateY(-2px); }
+    .stat.is-on { box-shadow: 0 0 0 2px var(--c), var(--shadow); }
+    .stat span { display: block; font-size: 12px; color: var(--mute); font-weight: 500; letter-spacing: .03em; }
+    .stat b { display: block; margin-top: 6px; font-size: 28px; font-weight: 600; line-height: 1; }
+    .stat small { display: block; margin-top: 6px; font-size: 12px; color: var(--mute); }
+
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px;
+      border-radius: 999px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; font-size: 13px;
+    }
+    .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--mute)); }
+    .chip em { font-style: normal; font-size: 12px; color: var(--mute); }
+    .chip.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .chip.is-on em { color: rgba(255, 255, 255, .7); }
+    .seg { display: inline-flex; padding: 3px; border-radius: 10px; background: #eee5e0; margin-left: auto; }
+    .seg button { height: 30px; padding: 0 12px; border: 0; border-radius: 8px; background: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--ink-2); }
+    .seg button.is-on { background: var(--panel); box-shadow: var(--shadow); color: var(--ink); }
+    .seg svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
+    select.filter { width: auto; height: 32px; border-radius: 999px; font-size: 13px; }
+
+    /* ---------- board ---------- */
+    .board { display: grid; grid-template-columns: repeat(6, minmax(250px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 8px; align-items: start; }
+    .col { background: #efe7e2; border-radius: var(--r); padding: 10px; min-height: 200px; transition: background-color .15s, box-shadow .15s; }
+    .col.is-over { background: #e8dbd5; box-shadow: inset 0 0 0 2px var(--c); }
+    .col-head { display: flex; align-items: center; gap: 8px; padding: 4px 4px 10px; }
+    .col-head i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+    .col-head b { font-weight: 600; }
+    .col-head em { font-style: normal; color: var(--mute); font-size: 12px; background: var(--panel); border-radius: 999px; padding: 1px 8px; }
+    .col-head small { margin-left: auto; font-size: 12px; color: var(--mute); }
+    .col-list { display: grid; gap: 8px; }
+    .col-empty { padding: 18px 8px; text-align: center; color: var(--mute); font-size: 12px; border: 1.5px dashed #dccdc6; border-radius: 10px; }
+
+    .card {
+      position: relative;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px;
+      box-shadow: 0 1px 2px rgba(42, 20, 25, .04); cursor: pointer;
+      transition: box-shadow .15s, transform .15s, border-color .15s;
+    }
+    .card:hover { box-shadow: var(--shadow); border-color: #dccdc6; }
+    .card.is-dragging { opacity: .45; transform: rotate(2deg); }
+    .card.is-new::before { content: "NEW"; position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 600; letter-spacing: .08em; color: #fff; background: var(--rose); border-radius: 999px; padding: 2px 7px; }
+    .card h4 { margin: 0 44px 2px 0; font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .card .meta { color: var(--mute); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .card .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .tag { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--line-2); font-size: 11.5px; color: var(--ink-2); }
+    .tag--due { background: #fff4e5; border-color: #fde2b8; color: #9a5b00; }
+    .tag--overdue { background: #fde8e6; border-color: #f8c9c3; color: #b42318; }
+    .tag--high { background: #fde7ec; border-color: #f9c9d5; color: var(--wine); }
+    .card .foot { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line-2); }
+    .card .foot small { margin-right: auto; color: var(--mute); font-size: 12px; }
+    .mini { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); display: grid; place-items: center; cursor: pointer; text-decoration: none; }
+    .mini:hover { background: var(--panel-2); }
+    .mini svg { width: 15px; height: 15px; }
+    .mini--wa { background: #e9f7ef; border-color: #cdebd9; }
+    .mini--wa svg { fill: #1f9d55; }
+    .mini--call svg { fill: none; stroke: var(--ink-2); stroke-width: 2; }
+
+    /* ---------- list ---------- */
+    .table-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); overflow: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 880px; }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line-2); vertical-align: middle; }
+    th { font-size: 12px; font-weight: 500; color: var(--mute); background: var(--panel-2); position: sticky; top: 0; cursor: pointer; user-select: none; white-space: nowrap; }
+    tr.row { cursor: pointer; }
+    tr.row:hover td { background: #fcf9f7; }
+    td .name { font-weight: 600; }
+    td .sub { font-size: 12px; color: var(--mute); }
+    .pill { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 500; color: var(--c); background: var(--cb); }
+    .pill i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+    select.status-select { height: 30px; border-radius: 999px; font-size: 12.5px; font-weight: 500; color: var(--c); background: var(--cb); border-color: transparent; width: auto; padding: 0 28px 0 10px; }
+
+    .empty { padding: 60px 20px; text-align: center; color: var(--mute); }
+    .empty b { display: block; font-family: var(--f-serif); font-size: 26px; color: var(--ink); margin-bottom: 6px; }
+
+    /* ---------- drawer ---------- */
+    .scrim { position: fixed; inset: 0; z-index: 50; background: rgba(42, 20, 25, .35); opacity: 0; pointer-events: none; transition: opacity .25s; }
+    .scrim.is-on { opacity: 1; pointer-events: auto; }
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 51;
+      width: min(560px, 100%);
+      display: flex; flex-direction: column;
+      background: var(--bg); box-shadow: var(--shadow-lg);
+      transform: translateX(104%); transition: transform .35s cubic-bezier(.16, 1, .3, 1);
+    }
+    .drawer.is-on { transform: none; }
+    .d-head { padding: 18px 20px 14px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    .d-head .row1 { display: flex; align-items: start; gap: 10px; }
+    .d-head h3 { margin: 0; font-family: var(--f-serif); font-weight: 600; font-size: 30px; line-height: 1.05; flex: 1; word-break: break-word; }
+    .d-head .when { margin: 4px 0 12px; color: var(--mute); font-size: 12.5px; }
+    .d-head .row2 { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .d-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+    .d-quick .btn { height: 44px; flex-direction: column; gap: 2px; font-size: 11.5px; padding: 0 6px; }
+    .d-quick .btn svg { width: 17px; height: 17px; }
+    .d-quick .btn--wa svg { fill: #fff; stroke: none; }
+    .d-body { flex: 1; overflow: auto; padding: 16px 20px 24px; display: grid; gap: 16px; align-content: start; }
+    .box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
+    .box h4 { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); display: flex; align-items: center; gap: 8px; }
+    .box h4 .btn { margin-left: auto; text-transform: none; letter-spacing: 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid2 .full { grid-column: 1 / -1; }
+    .quote { margin: 0; padding: 12px 14px; border-left: 3px solid var(--rose); background: var(--blush); border-radius: 0 10px 10px 0; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .templates { display: grid; gap: 8px; }
+    .tpl { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel-2); cursor: pointer; }
+    .tpl:hover { border-color: #b9e3c9; background: #f1faf4; }
+    .tpl b { font-weight: 500; }
+    .tpl span { display: block; font-size: 12px; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 380px; }
+    .tpl svg { flex: none; width: 18px; height: 18px; fill: #1f9d55; }
+    .note-form { display: grid; gap: 8px; }
+    .note-form .row { display: flex; gap: 8px; justify-content: flex-end; }
+    .timeline { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 0; }
+    .timeline li { position: relative; padding: 0 0 16px 26px; }
+    .timeline li::before { content: ""; position: absolute; left: 7px; top: 18px; bottom: 0; width: 2px; background: var(--line); }
+    .timeline li:last-child::before { display: none; }
+    .timeline .dot { position: absolute; left: 0; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--panel); border: 2px solid var(--c, var(--mute)); }
+    .timeline .k { font-size: 12px; color: var(--mute); }
+    .timeline .k b { color: var(--ink-2); font-weight: 600; }
+    .timeline p { margin: 3px 0 0; white-space: pre-wrap; word-break: break-word; line-height: 1.5; }
+    .d-foot { display: flex; gap: 8px; justify-content: space-between; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); background: var(--panel); border-top: 1px solid var(--line); }
+
+    /* ---------- modal ---------- */
+    .modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; background: rgba(42, 20, 25, .4); }
+    .modal-card { width: min(100%, 560px); max-height: calc(100vh - 32px); overflow: auto; background: var(--panel); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 22px; }
+    .modal-card h3 { margin: 0 0 4px; font-family: var(--f-serif); font-weight: 600; font-size: 28px; }
+    .modal-card .sub { margin: 0 0 18px; color: var(--mute); }
+    .modal-card .row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+    /* ---------- toast ---------- */
+    .toasts { position: fixed; left: 50%; bottom: 20px; z-index: 80; transform: translateX(-50%); display: grid; gap: 8px; justify-items: center; pointer-events: none; }
+    .toast { pointer-events: auto; display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 12px; background: var(--ink); color: #fff; box-shadow: var(--shadow-lg); font-size: 13.5px; animation: tin .3s cubic-bezier(.16, 1, .3, 1); }
+    .toast.err { background: var(--danger); }
+    .toast button { border: 0; background: rgba(255, 255, 255, .15); color: #fff; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+    @keyframes tin { from { opacity: 0; transform: translateY(10px); } }
+
+    .loading { display: grid; place-items: center; padding: 80px; color: var(--mute); }
+    .spinner { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--wine); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1100px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px) {
+      .top { padding: 10px 12px; gap: 8px; flex-wrap: wrap; }
+      .brandmark span small { display: none; }
+      .search { order: 5; flex: 1 1 100%; max-width: none; margin: 0; }
+      .search kbd { display: none; }
+      main.body { padding: 14px 12px; gap: 14px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:last-child { grid-column: 1 / -1; }
+      .seg { margin-left: 0; }
+      .board { grid-template-columns: repeat(6, 82vw); scroll-snap-type: x mandatory; }
+      .col { scroll-snap-align: start; }
+      .grid2 { grid-template-columns: 1fr; }
+      .d-quick { grid-template-columns: repeat(4, 1fr); }
+      .top .hide-sm { display: none; }
+    }
+  </style>
+  <script src="assets/kala-api.js" defer></script>
+</head>
+<body>
+
+  <!-- ============ AUTH ============ -->
+  <section class="auth" id="auth" hidden>
+    <div class="auth-card">
+      <div class="logo"><span>कला</span></div>
+      <h1 id="auth-title">Kala CRM</h1>
+      <p class="sub" id="auth-sub">Sign in to manage your enquiries</p>
+
+      <form id="login-form" hidden>
+        <div><label class="lbl" for="l-email">Email</label><input class="input" id="l-email" type="email" autocomplete="username" required></div>
+        <div><label class="lbl" for="l-pass">Password</label><input class="input" id="l-pass" type="password" autocomplete="current-password" required></div>
+        <button class="btn btn--primary" type="submit">Sign in</button>
+        <div class="auth-msg" role="alert"></div>
+      </form>
+
+      <form id="setup-form" hidden>
+        <div><label class="lbl" for="s-code">Setup code</label><input class="input" id="s-code" autocomplete="off" placeholder="KALA-XXXX-XXXX" required></div>
+        <div><label class="lbl" for="s-name">Your name</label><input class="input" id="s-name" autocomplete="name" placeholder="e.g. Priya"></div>
+        <div><label class="lbl" for="s-email">Email</label><input class="input" id="s-email" type="email" autocomplete="username" required></div>
+        <div><label class="lbl" for="s-pass">Create a password</label><input class="input" id="s-pass" type="password" autocomplete="new-password" minlength="8" required></div>
+        <div><label class="lbl" for="s-pass2">Confirm password</label><input class="input" id="s-pass2" type="password" autocomplete="new-password" minlength="8" required></div>
+        <button class="btn btn--primary" type="submit">Create admin &amp; open CRM</button>
+        <div class="auth-msg" role="alert"></div>
+      </form>
+      <p class="auth-foot"><a href="/">← Back to website</a></p>
+    </div>
+  </section>
+
+  <!-- ============ APP ============ -->
+  <div class="app" id="app" hidden>
+    <header class="top">
+      <a class="brandmark" href="/crm" aria-label="Kala CRM home"><b>कला</b><span>CRM<small>Kala Art Wrap</small></span></a>
+      <label class="search">
+        <span class="sr">Search leads</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="input" id="q" type="search" placeholder="Search name, phone, occasion…" autocomplete="off">
+        <kbd>/</kbd>
+      </label>
+      <span class="spacer"></span>
+      <button class="btn btn--icon" id="refresh" title="Refresh" aria-label="Refresh"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></button>
+      <button class="btn btn--primary" id="add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span class="hide-sm">Add lead</span></button>
+      <div class="me">
+        <button class="avatar" id="me-btn" aria-haspopup="true" aria-expanded="false">K</button>
+        <div class="menu" id="me-menu" hidden>
+          <div class="who"><b id="me-name">Admin</b><span id="me-email"></span></div>
+          <button id="export">⬇︎ Export CSV</button>
+          <button id="pw">🔑 Change password</button>
+          <button id="site" onclick="window.open('index.html','_blank')">🌸 Open website</button>
+          <button id="logout">↩︎ Log out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="body">
+      <div class="greeting">
+        <div>
+          <h2 id="hello">Hello!</h2>
+          <p id="hello-sub">Here's what's happening with your enquiries.</p>
+        </div>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="toolbar">
+        <div class="chips" id="status-chips"></div>
+        <select class="input filter" id="source" aria-label="Filter by source">
+          <option value="all">All sources</option>
+        </select>
+        <div class="seg" role="tablist" aria-label="View">
+          <button id="v-board" class="is-on" role="tab"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg>Board</button>
+          <button id="v-list" role="tab"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>List</button>
+        </div>
+      </div>
+
+      <div id="view"><div class="loading"><div class="spinner"></div></div></div>
+    </main>
+  </div>
+
+  <!-- drawer -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-label="Lead details" aria-hidden="true"></aside>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    /* ============================================================
+       Config
+       ============================================================ */
+    const STATUSES = [
+      { id: 'new',       label: 'New',       c: 'var(--s-new)',       cb: 'var(--s-new-bg)' },
+      { id: 'contacted', label: 'Contacted', c: 'var(--s-contacted)', cb: 'var(--s-contacted-bg)' },
+      { id: 'designing', label: 'Designing', c: 'var(--s-designing)', cb: 'var(--s-designing-bg)' },
+      { id: 'confirmed', label: 'Confirmed', c: 'var(--s-confirmed)', cb: 'var(--s-confirmed-bg)' },
+      { id: 'delivered', label: 'Delivered', c: 'var(--s-delivered)', cb: 'var(--s-delivered-bg)' },
+      { id: 'lost',      label: 'Lost',      c: 'var(--s-lost)',      cb: 'var(--s-lost-bg)' }
+    ];
+    const S = Object.fromEntries(STATUSES.map(s => [s.id, s]));
+    const SOURCES = ['website', 'instagram', 'whatsapp', 'call', 'referral', 'walk-in', 'manual'];
+    const OCCASIONS = ['Birthday', 'Anniversary', 'Proposal', "Valentine's", 'Just because', 'Wedding', 'Other'];
+    const BUDGETS = ['₹199 – ₹499', '₹500 – ₹999', '₹1,000 – ₹1,999', '₹2,000+', 'Not sure'];
+
+    const TEMPLATES = [
+      { id: 'greet', name: 'Say hello', text: l => `Hi ${first(l)}! 🌸 Thank you for reaching out to Kala Art Wrap.${l.occasion ? ` I saw your enquiry for a ${l.occasion.toLowerCase()} bouquet —` : ''} I'd love to help! Could you share your favourite colours and when you need it?` },
+      { id: 'ideas', name: 'Share design ideas', text: l => `Hi ${first(l)}! 💐 Here are a few design ideas for your ${l.occasion ? l.occasion.toLowerCase() + ' ' : ''}bouquet. Let me know which one you like and I'll customise it just for you.` },
+      { id: 'follow', name: 'Gentle follow-up', text: l => `Hi ${first(l)}! 🌷 Just checking in about your bouquet enquiry. Would you like to go ahead? Happy to help with any changes.` },
+      { id: 'confirm', name: 'Confirm order', text: l => `Hi ${first(l)}! 🎀 Your forever bouquet order is confirmed${l.value_inr ? ` — total ₹${inr(l.value_inr)}` : ''}. It will be ready in 3–5 days. Thank you for choosing Kala Art Wrap!` },
+      { id: 'ready', name: 'Ready / delivery', text: l => `Hi ${first(l)}! 💖 Your forever bouquet is ready and on its way. Hope it makes the moment extra special!` },
+      { id: 'thanks', name: 'Thank you + review', text: l => `Hi ${first(l)}! Thank you so much for ordering from Kala Art Wrap 🌸 If you loved your bouquet, we'd be so happy if you tag us @kala_art_wrap on Instagram!` }
+    ];
+
+    /* ============================================================
+       Helpers
+       ============================================================ */
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const first = l => (l.name || 'there').trim().split(/\s+/)[0];
+    const inr = n => Number(n || 0).toLocaleString('en-IN');
+    const today = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+    const dOnly = s => { if (!s) return null; const [y, m, d] = s.slice(0, 10).split('-').map(Number); return new Date(y, m - 1, d); };
+    const fmtDate = s => s ? dOnly(s).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: dOnly(s).getFullYear() === new Date().getFullYear() ? undefined : 'numeric' }) : '';
+    const fmtDateTime = s => new Date(s).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+    const ago = s => {
+      const sec = (Date.now() - new Date(s).getTime()) / 1000;
+      if (sec < 60) return 'just now';
+      if (sec < 3600) return `${Math.floor(sec / 60)}m ago`;
+      if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`;
+      if (sec < 86400 * 7) return `${Math.floor(sec / 86400)}d ago`;
+      return fmtDate(s);
+    };
+    const waNumber = p => { const d = String(p || '').replace(/\D/g, ''); if (!d) return ''; return d.length === 10 ? '91' + d : d; };
+    const waLink = (p, text) => `https://wa.me/${waNumber(p)}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
+    const prettyPhone = p => { const d = waNumber(p); return d.length === 12 && d.startsWith('91') ? `+91 ${d.slice(2, 7)} ${d.slice(7)}` : (p || ''); };
+    const dueState = l => {
+      if (!l.follow_up_at || ['delivered', 'lost'].includes(l.status)) return null;
+      const f = dOnly(l.follow_up_at), t = today();
+      if (f < t) return 'overdue';
+      if (f.getTime() === t.getTime()) return 'today';
+      return 'later';
+    };
+    const icon = {
+      wa: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.7-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3Z"/></svg>',
+      call: '<svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>',
+      mail: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+      ig: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>',
+      copy: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+      x: '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+      trash: '<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>'
+    };
+
+    function toast(msg, opts = {}) {
+      const t = document.createElement('div');
+      t.className = 'toast' + (opts.error ? ' err' : '');
+      t.innerHTML = `<span>${esc(msg)}</span>`;
+      if (opts.action) {
+        const b = document.createElement('button');
+        b.textContent = opts.action.label;
+        b.onclick = () => { opts.action.fn(); t.remove(); };
+        t.appendChild(b);
+      }
+      $('#toasts').appendChild(t);
+      setTimeout(() => t.remove(), opts.ms || 3200);
+    }
+
+    /* ============================================================
+       Session
+       ============================================================ */
+    const TOKEN_KEY = 'kaw_crm_token';
+    const SEEN_KEY = 'kaw_crm_seen_at';
+    const store = {
+      get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+      del(k) { try { localStorage.removeItem(k); } catch {} }
+    };
+    let token = store.get(TOKEN_KEY);
+    let me = null;
+
+    async function api(fn, args = {}) {
+      try {
+        return await KalaAPI.rpc(fn, { p_token: token, ...args });
+      } catch (e) {
+        if (e.code === 'not_authorized') { signOut(true); }
+        throw e;
+      }
+    }
+
+    function signOut(expired) {
+      if (token) KalaAPI.rpc('kaw_admin_logout', { p_token: token }).catch(() => {});
+      token = null; me = null;
+      store.del(TOKEN_KEY);
+      clearInterval(poll);
+      closeDrawer();
+      $('#app').hidden = true;
+      showAuth();
+      if (expired) toast('Session expired — please sign in again.', { error: true });
+    }
+
+    async function showAuth() {
+      $('#auth').hidden = false;
+      let needs = false;
+      try { needs = await KalaAPI.rpc('kaw_admin_needs_setup'); } catch (e) { toast(e.message, { error: true }); }
+      $('#login-form').hidden = needs;
+      $('#setup-form').hidden = !needs;
+      $('#auth-title').textContent = needs ? 'Set up your CRM' : 'Kala CRM';
+      $('#auth-sub').textContent = needs ? 'One-time setup — create your admin login' : 'Sign in to manage your enquiries';
+      (needs ? $('#s-code') : $('#l-email')).focus();
+    }
+
+    $('#login-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const msg = $('#login-form .auth-msg'), btn = $('#login-form button');
+      msg.textContent = ''; btn.disabled = true; btn.textContent = 'Signing in…';
+      try {
+        const r = await KalaAPI.rpc('kaw_admin_login', { p_email: $('#l-email').value, p_password: $('#l-pass').value });
+        token = r.token; store.set(TOKEN_KEY, token);
+        $('#l-pass').value = '';
+        enterApp(r);
+      } catch (err) { msg.textContent = err.message; }
+      finally { btn.disabled = false; btn.textContent = 'Sign in'; }
+    });
+
+    $('#setup-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const msg = $('#setup-form .auth-msg'), btn = $('#setup-form button');
+      msg.textContent = '';
+      if ($('#s-pass').value !== $('#s-pass2').value) { msg.textContent = 'Passwords don’t match.'; return; }
+      btn.disabled = true;
+      try {
+        const r = await KalaAPI.rpc('kaw_admin_setup', { p_code: $('#s-code').value, p_email: $('#s-email').value, p_password: $('#s-pass').value, p_name: $('#s-name').value || null });
+        token = r.token; store.set(TOKEN_KEY, token);
+        $('#s-pass').value = $('#s-pass2').value = '';
+        enterApp(r);
+        toast('Welcome! Your CRM is ready 🌸');
+      } catch (err) { msg.textContent = err.message; }
+      finally { btn.disabled = false; }
+    });
+
+    /* ============================================================
+       App state
+       ============================================================ */
+    let leads = [];
+    let view = store.get('kaw_crm_view') || (innerWidth < 720 ? 'list' : 'board');
+    let filter = { status: 'all', source: 'all', q: '', special: null };
+    let sort = { key: 'created_at', dir: -1 };
+    let lastSeen = store.get(SEEN_KEY) || new Date(0).toISOString();
+    let poll = 0;
+    let openId = null;
+
+    function enterApp(profile) {
+      me = profile;
+      $('#auth').hidden = true;
+      $('#app').hidden = false;
+      $('#me-name').textContent = me.name || 'Admin';
+      $('#me-email').textContent = me.email || '';
+      $('#me-btn').textContent = (me.name || me.email || 'K').trim()[0].toUpperCase();
+      const h = new Date().getHours();
+      $('#hello').textContent = `${h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'}${me.name ? ', ' + me.name.split(' ')[0] : ''} 🌸`;
+      setView(view);
+      load(true);
+      clearInterval(poll);
+      poll = setInterval(() => { if (!document.hidden) load(false); }, 45000);
+    }
+
+    async function load(first) {
+      try {
+        const data = await api('kaw_crm_leads');
+        const before = new Set(leads.map(l => l.id));
+        const fresh = first ? [] : data.filter(l => !before.has(l.id));
+        leads = data;
+        render();
+        if (fresh.length) {
+          toast(`New enquiry from ${fresh[0].name}${fresh.length > 1 ? ` (+${fresh.length - 1} more)` : ''} 🌸`, { action: { label: 'Open', fn: () => openLead(fresh[0].id) }, ms: 8000 });
+        }
+        if (openId && !first) refreshDrawer(false);
+      } catch (e) {
+        if (e.code !== 'not_authorized') { toast(e.message, { error: true }); if (first) $('#view').innerHTML = `<div class="empty"><b>Couldn't load leads</b>${esc(e.message)}</div>`; }
+      }
+    }
+
+    const isNew = l => l.status === 'new' && l.created_at > lastSeen;
+
+    /* ============================================================
+       Rendering
+       ============================================================ */
+    function filtered() {
+      const q = filter.q.trim().toLowerCase();
+      return leads.filter(l => {
+        if (filter.status !== 'all' && l.status !== filter.status) return false;
+        if (filter.source !== 'all' && l.source !== filter.source) return false;
+        if (filter.special === 'due' && !['today', 'overdue'].includes(dueState(l))) return false;
+        if (filter.special === 'active' && !['contacted', 'designing'].includes(l.status)) return false;
+        if (q) {
+          const hay = [l.name, l.phone, l.email, l.instagram, l.occasion, l.budget, l.colours, l.message, l.source].join(' ').toLowerCase();
+          if (!hay.includes(q) && !String(l.phone || '').replace(/\D/g, '').includes(q.replace(/\D/g, '') || '§')) return false;
+        }
+        return true;
+      });
+    }
+
+    function render() {
+      renderStats();
+      renderChips();
+      renderSources();
+      const list = filtered();
+      if (view === 'board') renderBoard(list); else renderList(list);
+      const nNew = leads.filter(l => l.status === 'new').length;
+      document.title = nNew ? `(${nNew}) Kala CRM` : 'Kala CRM';
+      const due = leads.filter(l => ['today', 'overdue'].includes(dueState(l))).length;
+      $('#hello-sub').textContent = !leads.length
+        ? 'No enquiries yet — they’ll appear here as soon as someone fills the contact form.'
+        : `${nNew ? `${nNew} new ${nNew === 1 ? 'enquiry' : 'enquiries'} waiting` : 'No new enquiries'}${due ? ` · ${due} follow-up${due > 1 ? 's' : ''} due` : ''}.`;
+    }
+
+    function renderStats() {
+      const month = new Date(); month.setDate(1); month.setHours(0, 0, 0, 0);
+      const count = s => leads.filter(l => l.status === s).length;
+      const due = leads.filter(l => ['today', 'overdue'].includes(dueState(l)));
+      const overdue = due.filter(l => dueState(l) === 'overdue').length;
+      const won = leads.filter(l => ['confirmed', 'delivered'].includes(l.status) && new Date(l.updated_at) >= month);
+      const wonValue = won.reduce((a, l) => a + (l.value_inr || 0), 0);
+      const closed = leads.filter(l => ['confirmed', 'delivered', 'lost'].includes(l.status));
+      const rate = closed.length ? Math.round(closed.filter(l => l.status !== 'lost').length / closed.length * 100) : null;
+      const cards = [
+        { k: 'new', label: 'New enquiries', val: count('new'), small: 'Reply to these first', c: 'var(--s-new)' },
+        { k: 'due', label: 'Follow-ups due', val: due.length, small: overdue ? `${overdue} overdue` : 'All caught up', c: overdue ? 'var(--danger)' : '#d97706' },
+        { k: 'active', label: 'In progress', val: count('contacted') + count('designing'), small: 'Contacted + designing', c: 'var(--s-designing)' },
+        { k: 'won', label: 'Won this month', val: `₹${inr(wonValue)}`, small: `${won.length} order${won.length === 1 ? '' : 's'}`, c: 'var(--s-confirmed)' },
+        { k: 'all', label: 'All leads', val: leads.length, small: rate === null ? 'Win rate —' : `Win rate ${rate}%`, c: 'var(--gold)' }
+      ];
+      const on = filter.special || (filter.status === 'new' ? 'new' : filter.status === 'all' ? 'all' : null);
+      $('#stats').innerHTML = cards.map(c => `
+        <button class="stat${on === c.k ? ' is-on' : ''}" data-k="${c.k}" style="--c:${c.c}">
+          <span>${c.label}</span><b>${c.val}</b><small>${esc(c.small)}</small>
+        </button>`).join('');
+    }
+    $('#stats').addEventListener('click', e => {
+      const b = e.target.closest('.stat'); if (!b) return;
+      const k = b.dataset.k;
+      filter.special = null;
+      if (k === 'new') filter.status = 'new';
+      else if (k === 'due' || k === 'active') { filter.status = 'all'; filter.special = k; }
+      else if (k === 'won') { filter.status = 'confirmed'; }
+      else filter.status = 'all';
+      render();
+    });
+
+    function renderChips() {
+      const counts = Object.fromEntries(STATUSES.map(s => [s.id, leads.filter(l => l.status === s.id).length]));
+      $('#status-chips').innerHTML =
+        `<button class="chip${filter.status === 'all' && !filter.special ? ' is-on' : ''}" data-s="all">All <em>${leads.length}</em></button>` +
+        STATUSES.map(s => `<button class="chip${filter.status === s.id ? ' is-on' : ''}" data-s="${s.id}" style="--c:${s.c}"><i></i>${s.label} <em>${counts[s.id]}</em></button>`).join('') +
+        (filter.special ? `<button class="chip is-on" data-s="all">${filter.special === 'due' ? 'Follow-ups due' : 'In progress'} ✕</button>` : '');
+    }
+    $('#status-chips').addEventListener('click', e => {
+      const b = e.target.closest('.chip'); if (!b) return;
+      filter.status = b.dataset.s; filter.special = null; render();
+    });
+
+    function renderSources() {
+      const sel = $('#source');
+      const present = [...new Set([...SOURCES, ...leads.map(l => l.source)])].filter(Boolean);
+      const cur = sel.value;
+      sel.innerHTML = '<option value="all">All sources</option>' + present.map(s => `<option value="${esc(s)}">${esc(s[0].toUpperCase() + s.slice(1))}</option>`).join('');
+      sel.value = present.includes(cur) ? cur : 'all';
+    }
+    $('#source').addEventListener('change', e => { filter.source = e.target.value; render(); });
+
+    function cardHTML(l) {
+      const due = dueState(l);
+      const tags = [];
+      if (l.occasion) tags.push(`<span class="tag">${esc(l.occasion)}</span>`);
+      if (l.budget) tags.push(`<span class="tag">${esc(l.budget)}</span>`);
+      if (l.value_inr) tags.push(`<span class="tag">₹${inr(l.value_inr)}</span>`);
+      if (l.priority === 'high') tags.push('<span class="tag tag--high">★ High</span>');
+      if (due === 'overdue') tags.push(`<span class="tag tag--overdue">⏰ Overdue · ${fmtDate(l.follow_up_at)}</span>`);
+      if (due === 'today') tags.push('<span class="tag tag--due">⏰ Follow up today</span>');
+      if (l.event_date) tags.push(`<span class="tag">📅 ${fmtDate(l.event_date)}</span>`);
+      const contact = l.phone ? prettyPhone(l.phone) : (l.instagram ? '@' + l.instagram : (l.email || ''));
+      return `
+        <article class="card${isNew(l) ? ' is-new' : ''}" draggable="true" data-id="${l.id}" tabindex="0" aria-label="${esc(l.name)}">
+          <h4>${esc(l.name)}</h4>
+          <div class="meta">${esc(contact)}${l.source && l.source !== 'website' ? ` · via ${esc(l.source)}` : ''}</div>
+          ${tags.length ? `<div class="tags">${tags.join('')}</div>` : ''}
+          <div class="foot">
+            <small>${ago(l.created_at)}</small>
+            ${l.phone ? `<a class="mini mini--wa" href="${waLink(l.phone)}" target="_blank" rel="noopener" data-act="wa" title="WhatsApp">${icon.wa}</a>
+                         <a class="mini mini--call" href="tel:+${waNumber(l.phone)}" data-act="call" title="Call">${icon.call}</a>` : ''}
+          </div>
+        </article>`;
+    }
+
+    function renderBoard(list) {
+      $('#view').innerHTML = `<div class="board">${STATUSES.map(s => {
+        const items = list.filter(l => l.status === s.id);
+        const sum = items.reduce((a, l) => a + (l.value_inr || 0), 0);
+        return `<section class="col" data-status="${s.id}" style="--c:${s.c}">
+          <div class="col-head"><i></i><b>${s.label}</b><em>${items.length}</em>${sum ? `<small>₹${inr(sum)}</small>` : ''}</div>
+          <div class="col-list">${items.length ? items.map(cardHTML).join('') : `<div class="col-empty">${leads.length ? 'Drop a lead here' : 'No leads yet'}</div>`}</div>
+        </section>`;
+      }).join('')}</div>`;
+      bindBoard();
+    }
+
+    function bindBoard() {
+      let dragId = null;
+      $$('.card').forEach(c => {
+        c.addEventListener('dragstart', e => { dragId = c.dataset.id; c.classList.add('is-dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragId); });
+        c.addEventListener('dragend', () => { c.classList.remove('is-dragging'); $$('.col').forEach(x => x.classList.remove('is-over')); });
+      });
+      $$('.col').forEach(col => {
+        col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('is-over'); });
+        col.addEventListener('dragleave', e => { if (!col.contains(e.relatedTarget)) col.classList.remove('is-over'); });
+        col.addEventListener('drop', e => {
+          e.preventDefault(); col.classList.remove('is-over');
+          const id = e.dataTransfer.getData('text/plain') || dragId;
+          const l = leads.find(x => x.id === id);
+          if (l && l.status !== col.dataset.status) setStatus(id, col.dataset.status);
+        });
+      });
+    }
+
+    function renderList(list) {
+      if (!list.length) {
+        $('#view').innerHTML = `<div class="table-wrap"><div class="empty"><b>${leads.length ? 'No matching leads' : 'No enquiries yet'}</b>${leads.length ? 'Try a different filter or search.' : 'New website enquiries will appear here automatically.'}</div></div>`;
+        return;
+      }
+      const rows = [...list].sort((a, b) => {
+        const va = a[sort.key] ?? '', vb = b[sort.key] ?? '';
+        return (va > vb ? 1 : va < vb ? -1 : 0) * sort.dir;
+      });
+      const th = (k, label) => `<th data-sort="${k}">${label}${sort.key === k ? (sort.dir > 0 ? ' ↑' : ' ↓') : ''}</th>`;
+      $('#view').innerHTML = `<div class="table-wrap"><table>
+        <thead><tr>${th('name', 'Name')}<th>Contact</th>${th('occasion', 'Occasion')}${th('budget', 'Budget')}${th('status', 'Status')}${th('follow_up_at', 'Follow-up')}${th('value_inr', 'Value')}${th('created_at', 'Received')}</tr></thead>
+        <tbody>${rows.map(l => {
+          const s = S[l.status], due = dueState(l);
+          return `<tr class="row" data-id="${l.id}">
+            <td><div class="name">${esc(l.name)}${isNew(l) ? ' <span class="tag tag--high">NEW</span>' : ''}</div><div class="sub">${esc(l.source || '')}</div></td>
+            <td>${l.phone ? `<a class="mini mini--wa" style="display:inline-grid;vertical-align:middle;margin-right:6px" href="${waLink(l.phone)}" target="_blank" rel="noopener" data-act="wa">${icon.wa}</a>${esc(prettyPhone(l.phone))}` : esc(l.instagram ? '@' + l.instagram : l.email || '—')}</td>
+            <td>${esc(l.occasion || '—')}</td>
+            <td>${esc(l.budget || '—')}</td>
+            <td><select class="input status-select" data-act="status" style="--c:${s.c};--cb:${s.cb}" aria-label="Status">${STATUSES.map(x => `<option value="${x.id}"${x.id === l.status ? ' selected' : ''}>${x.label}</option>`).join('')}</select></td>
+            <td>${l.follow_up_at ? `<span class="tag${due === 'overdue' ? ' tag--overdue' : due === 'today' ? ' tag--due' : ''}">${fmtDate(l.follow_up_at)}</span>` : '<span class="sub">—</span>'}</td>
+            <td>${l.value_inr ? '₹' + inr(l.value_inr) : '<span class="sub">—</span>'}</td>
+            <td class="sub">${ago(l.created_at)}</td>
+          </tr>`;
+        }).join('')}</tbody></table></div>`;
+    }
+
+    // one delegated handler for cards & rows
+    $('#view').addEventListener('click', e => {
+      const th = e.target.closest('th[data-sort]');
+      if (th) { const k = th.dataset.sort; sort = { key: k, dir: sort.key === k ? -sort.dir : -1 }; render(); return; }
+      const act = e.target.closest('[data-act]');
+      const host = e.target.closest('[data-id]');
+      if (!host) return;
+      if (act) {
+        if (act.dataset.act === 'wa' || act.dataset.act === 'call') {
+          logContact(host.dataset.id, act.dataset.act === 'wa' ? 'Opened WhatsApp chat' : 'Called');
+        }
+        return;
+      }
+      openLead(host.dataset.id);
+    });
+    $('#view').addEventListener('change', e => {
+      const sel = e.target.closest('select[data-act="status"]');
+      if (sel) setStatus(sel.closest('[data-id]').dataset.id, sel.value);
+    });
+    $('#view').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.matches('.card')) openLead(e.target.dataset.id);
+    });
+
+    function setView(v) {
+      view = v; store.set('kaw_crm_view', v);
+      $('#v-board').classList.toggle('is-on', v === 'board');
+      $('#v-list').classList.toggle('is-on', v === 'list');
+      if (leads.length || $('#view').querySelector('.board, .table-wrap')) render();
+    }
+    $('#v-board').onclick = () => setView('board');
+    $('#v-list').onclick = () => setView('list');
+
+    let qT = 0;
+    $('#q').addEventListener('input', e => { clearTimeout(qT); qT = setTimeout(() => { filter.q = e.target.value; render(); }, 120); });
+
+    /* ============================================================
+       Mutations
+       ============================================================ */
+    function patchLocal(updated) {
+      const i = leads.findIndex(l => l.id === updated.id);
+      if (i >= 0) leads[i] = { ...leads[i], ...updated };
+    }
+
+    async function setStatus(id, status) {
+      const l = leads.find(x => x.id === id); if (!l) return;
+      const prev = l.status;
+      l.status = status; render();
+      try {
+        const u = await api('kaw_crm_update_lead', { p_id: id, p_patch: { status } });
+        patchLocal(u); render();
+        if (openId === id) refreshDrawer(false);
+        toast(`${l.name} → ${S[status].label}`, { action: { label: 'Undo', fn: () => setStatus(id, prev) } });
+      } catch (e) {
+        l.status = prev; render();
+        if (e.code !== 'not_authorized') toast(e.message, { error: true });
+      }
+    }
+
+    async function logContact(id, body) {
+      try {
+        const u = await api('kaw_crm_add_activity', { p_id: id, p_kind: 'contact', p_body: body });
+        patchLocal(u); render();
+        if (openId === id) refreshDrawer(false);
+      } catch (e) { if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+    }
+
+    /* ============================================================
+       Drawer (lead details)
+       ============================================================ */
+    const drawer = $('#drawer'), scrim = $('#scrim');
+    let dirty = false;
+
+    async function openLead(id) {
+      openId = id;
+      dirty = false;
+      drawer.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      drawer.classList.add('is-on'); scrim.classList.add('is-on');
+      drawer.setAttribute('aria-hidden', 'false');
+      await refreshDrawer(true);
+    }
+
+    function closeDrawer() {
+      if (dirty && !confirm('You have unsaved changes. Close anyway?')) return;
+      openId = null; dirty = false;
+      drawer.classList.remove('is-on'); scrim.classList.remove('is-on');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+    scrim.onclick = closeDrawer;
+
+    async function refreshDrawer(focus) {
+      if (!openId || (dirty && !focus)) return;
+      try {
+        const l = await api('kaw_crm_lead', { p_id: openId });
+        if (!openId) return;
+        patchLocal(l);
+        drawer.innerHTML = drawerHTML(l);
+        bindDrawer(l);
+        if (focus) drawer.querySelector('.d-close').focus();
+      } catch (e) {
+        if (e.code === 'not_found') { toast('That lead was deleted.'); closeDrawer(); leads = leads.filter(x => x.id !== openId); render(); }
+        else if (e.code !== 'not_authorized') toast(e.message, { error: true });
+      }
+    }
+
+    const opt = (list, cur, blank = '—') => `<option value="">${blank}</option>` + [...new Set([...list, ...(cur && !list.includes(cur) ? [cur] : [])])].map(v => `<option${v === cur ? ' selected' : ''}>${esc(v)}</option>`).join('');
+
+    function drawerHTML(l) {
+      const s = S[l.status];
+      const kindMeta = { created: ['Lead created', 'var(--s-new)'], note: ['Note', 'var(--gold)'], contact: ['Contacted', '#1f9d55'], status: ['Status changed', 'var(--s-designing)'], update: ['Updated', 'var(--mute)'] };
+      return `
+        <div class="d-head">
+          <div class="row1">
+            <h3>${esc(l.name)}</h3>
+            <button class="btn btn--ghost btn--icon d-close" aria-label="Close">${icon.x}</button>
+          </div>
+          <p class="when">Received ${fmtDateTime(l.created_at)} · via ${esc(l.source)}${l.last_contacted_at ? ` · last contacted ${ago(l.last_contacted_at)}` : ''}</p>
+          <div class="row2">
+            <select class="input status-select" id="d-status" style="--c:${s.c};--cb:${s.cb}" aria-label="Status">${STATUSES.map(x => `<option value="${x.id}"${x.id === l.status ? ' selected' : ''}>${x.label}</option>`).join('')}</select>
+            <select class="input" id="d-priority" style="width:auto;height:30px;border-radius:999px;font-size:12.5px" aria-label="Priority">
+              <option value="low"${l.priority === 'low' ? ' selected' : ''}>Low priority</option>
+              <option value="normal"${l.priority === 'normal' ? ' selected' : ''}>Normal priority</option>
+              <option value="high"${l.priority === 'high' ? ' selected' : ''}>★ High priority</option>
+            </select>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mute)">Follow-up
+              <input class="input" id="d-follow" type="date" value="${l.follow_up_at || ''}" style="width:auto;height:30px;border-radius:999px;font-size:12.5px"></label>
+          </div>
+          <div class="d-quick">
+            ${l.phone ? `<a class="btn btn--wa" href="${waLink(l.phone)}" target="_blank" rel="noopener" data-log="Opened WhatsApp chat">${icon.wa}WhatsApp</a>
+                         <a class="btn" href="tel:+${waNumber(l.phone)}" data-log="Called">${icon.call}Call</a>` : `<button class="btn" disabled>${icon.wa}WhatsApp</button><button class="btn" disabled>${icon.call}Call</button>`}
+            ${l.email ? `<a class="btn" href="mailto:${esc(l.email)}?subject=${encodeURIComponent('Your Kala Art Wrap bouquet 🌸')}" data-log="Sent an email">${icon.mail}Email</a>` : `<button class="btn" disabled>${icon.mail}Email</button>`}
+            ${l.instagram ? `<a class="btn" href="https://ig.me/m/${esc(l.instagram)}" target="_blank" rel="noopener" data-log="Messaged on Instagram">${icon.ig}Instagram</a>` : (l.phone ? `<button class="btn" id="d-copy">${icon.copy}Copy no.</button>` : `<button class="btn" disabled>${icon.ig}Instagram</button>`)}
+          </div>
+        </div>
+
+        <div class="d-body">
+          ${l.message ? `<div class="box"><h4>Their message</h4><p class="quote">${esc(l.message)}</p></div>` : ''}
+
+          ${l.phone ? `<div class="box">
+            <h4>Quick WhatsApp replies</h4>
+            <div class="templates">${TEMPLATES.map(t => `<button class="tpl" data-tpl="${t.id}">${icon.wa}<div><b>${t.name}</b><span>${esc(t.text(l))}</span></div></button>`).join('')}</div>
+          </div>` : ''}
+
+          <div class="box">
+            <h4>Details <button class="btn btn--primary btn--sm" id="d-save" disabled>Save changes</button></h4>
+            <form class="grid2" id="d-form" autocomplete="off">
+              <div><label class="lbl">Name</label><input class="input" name="name" value="${esc(l.name)}" required></div>
+              <div><label class="lbl">Phone / WhatsApp</label><input class="input" name="phone" value="${esc(l.phone || '')}" inputmode="tel"></div>
+              <div><label class="lbl">Email</label><input class="input" name="email" type="email" value="${esc(l.email || '')}"></div>
+              <div><label class="lbl">Instagram</label><input class="input" name="instagram" value="${esc(l.instagram || '')}" placeholder="username"></div>
+              <div><label class="lbl">Occasion</label><select class="input" name="occasion">${opt(OCCASIONS, l.occasion)}</select></div>
+              <div><label class="lbl">Budget</label><select class="input" name="budget">${opt(BUDGETS, l.budget)}</select></div>
+              <div><label class="lbl">Needed by</label><input class="input" name="event_date" type="date" value="${l.event_date || ''}"></div>
+              <div><label class="lbl">Order value (₹)</label><input class="input" name="value_inr" type="number" min="0" step="1" value="${l.value_inr ?? ''}" placeholder="e.g. 799"></div>
+              <div class="full"><label class="lbl">Colours / design</label><input class="input" name="colours" value="${esc(l.colours || '')}"></div>
+              <div><label class="lbl">Source</label><select class="input" name="source">${opt(SOURCES, l.source, 'website')}</select></div>
+            </form>
+          </div>
+
+          <div class="box">
+            <h4>Notes &amp; activity</h4>
+            <div class="note-form">
+              <textarea class="input" id="d-note" placeholder="Add a note — design ideas, what they said, delivery address…"></textarea>
+              <div class="row">
+                <button class="btn btn--sm" id="d-log">📞 Log a contact</button>
+                <button class="btn btn--primary btn--sm" id="d-add-note">Add note</button>
+              </div>
+            </div>
+            <ul class="timeline">${(l.activities || []).map(a => {
+              const [label, c] = kindMeta[a.kind] || ['Activity', 'var(--mute)'];
+              return `<li style="--c:${c}"><span class="dot"></span><div class="k"><b>${label}</b> · ${fmtDateTime(a.created_at)}${a.author ? ' · ' + esc(a.author) : ''}</div>${a.body ? `<p>${esc(a.body)}</p>` : ''}</li>`;
+            }).join('') || '<li><div class="k">No activity yet</div></li>'}</ul>
+          </div>
+        </div>
+
+        <div class="d-foot">
+          <button class="btn btn--danger btn--sm" id="d-delete">${icon.trash}Delete lead</button>
+          <button class="btn btn--sm" id="d-close2">Close</button>
+        </div>`;
+    }
+
+    function bindDrawer(l) {
+      const id = l.id;
+      drawer.querySelector('.d-close').onclick = closeDrawer;
+      drawer.querySelector('#d-close2').onclick = closeDrawer;
+
+      drawer.querySelector('#d-status').onchange = e => setStatus(id, e.target.value);
+      drawer.querySelector('#d-priority').onchange = e => quickPatch(id, { priority: e.target.value }, 'Priority updated');
+      drawer.querySelector('#d-follow').onchange = e => quickPatch(id, { follow_up_at: e.target.value || '' }, e.target.value ? `Follow-up set for ${fmtDate(e.target.value)}` : 'Follow-up cleared');
+
+      drawer.querySelectorAll('[data-log]').forEach(a => a.addEventListener('click', () => logContact(id, a.dataset.log)));
+      const copy = drawer.querySelector('#d-copy');
+      if (copy) copy.onclick = () => { navigator.clipboard?.writeText(prettyPhone(l.phone)); toast('Number copied'); };
+
+      drawer.querySelectorAll('[data-tpl]').forEach(b => b.addEventListener('click', () => {
+        const t = TEMPLATES.find(x => x.id === b.dataset.tpl);
+        window.open(waLink(l.phone, t.text(l)), '_blank', 'noopener');
+        logContact(id, `WhatsApp: “${t.name}” message`);
+      }));
+
+      const form = drawer.querySelector('#d-form'), save = drawer.querySelector('#d-save');
+      form.addEventListener('input', () => { dirty = true; save.disabled = false; });
+      form.addEventListener('change', () => { dirty = true; save.disabled = false; });
+      save.onclick = async () => {
+        const fd = new FormData(form);
+        const patch = Object.fromEntries([...fd.entries()].map(([k, v]) => [k, String(v).trim()]));
+        if (!patch.name) { toast('Name can’t be empty', { error: true }); return; }
+        save.disabled = true; save.textContent = 'Saving…';
+        try {
+          const u = await api('kaw_crm_update_lead', { p_id: id, p_patch: patch });
+          patchLocal(u); dirty = false; render();
+          toast('Saved ✓');
+          refreshDrawer(false);
+        } catch (e) { save.disabled = false; save.textContent = 'Save changes'; if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+      };
+
+      const note = drawer.querySelector('#d-note');
+      const add = async kind => {
+        const body = note.value.trim();
+        if (!body) { note.focus(); return; }
+        try {
+          const u = await api('kaw_crm_add_activity', { p_id: id, p_kind: kind, p_body: body });
+          patchLocal(u); note.value = ''; render();
+          toast(kind === 'note' ? 'Note added' : 'Contact logged');
+          refreshDrawer(false);
+        } catch (e) { if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+      };
+      drawer.querySelector('#d-add-note').onclick = () => add('note');
+      drawer.querySelector('#d-log').onclick = () => { if (!note.value.trim()) note.value = 'Spoke with them'; add('contact'); };
+      note.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) add('note'); });
+
+      drawer.querySelector('#d-delete').onclick = async () => {
+        if (!confirm(`Delete ${l.name}? This removes the lead and all its notes permanently.`)) return;
+        try {
+          await api('kaw_crm_delete_lead', { p_id: id });
+          dirty = false; closeDrawer();
+          leads = leads.filter(x => x.id !== id); render();
+          toast('Lead deleted');
+        } catch (e) { if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+      };
+    }
+
+    async function quickPatch(id, patch, msg) {
+      try {
+        const u = await api('kaw_crm_update_lead', { p_id: id, p_patch: patch });
+        patchLocal(u); render(); toast(msg);
+        refreshDrawer(false);
+      } catch (e) { if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+    }
+
+    /* ============================================================
+       Modals: add lead, change password
+       ============================================================ */
+    function modal(html, onMount) {
+      const m = document.createElement('div');
+      m.className = 'modal';
+      m.innerHTML = `<div class="modal-card" role="dialog" aria-modal="true">${html}</div>`;
+      document.body.appendChild(m);
+      const close = () => m.remove();
+      m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) close(); });
+      m.addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); close(); } });
+      onMount(m, close);
+      m.querySelector('input, select, textarea')?.focus();
+    }
+
+    function addLead() {
+      modal(`
+        <h3>Add a lead</h3>
+        <p class="sub">For enquiries from Instagram DMs, WhatsApp, calls or walk-ins.</p>
+        <form class="grid2" id="m-form">
+          <div class="full"><label class="lbl">Name *</label><input class="input" name="name" required></div>
+          <div><label class="lbl">Phone / WhatsApp</label><input class="input" name="phone" inputmode="tel" placeholder="98765 43210"></div>
+          <div><label class="lbl">Instagram</label><input class="input" name="instagram" placeholder="username"></div>
+          <div><label class="lbl">Came from</label><select class="input" name="source">${SOURCES.filter(s => s !== 'website').map(s => `<option value="${s}"${s === 'instagram' ? ' selected' : ''}>${s[0].toUpperCase() + s.slice(1)}</option>`).join('')}</select></div>
+          <div><label class="lbl">Occasion</label><select class="input" name="occasion">${opt(OCCASIONS, '')}</select></div>
+          <div><label class="lbl">Budget</label><select class="input" name="budget">${opt(BUDGETS, '')}</select></div>
+          <div><label class="lbl">Needed by</label><input class="input" name="event_date" type="date"></div>
+          <div class="full"><label class="lbl">What do they want?</label><textarea class="input" name="message" placeholder="Colours, style, extras…"></textarea></div>
+        </form>
+        <div class="row"><button class="btn" data-close>Cancel</button><button class="btn btn--primary" id="m-save">Add lead</button></div>`,
+      (m, close) => {
+        const go = async () => {
+          const fd = new FormData(m.querySelector('#m-form'));
+          const p = Object.fromEntries([...fd.entries()].map(([k, v]) => [k, String(v).trim()]));
+          if (!p.name) { m.querySelector('[name=name]').focus(); return; }
+          if (p.phone && /^\d{10}$/.test(p.phone.replace(/\D/g, ''))) p.phone = '+91' + p.phone.replace(/\D/g, '');
+          const b = m.querySelector('#m-save'); b.disabled = true;
+          try {
+            const id = await api('kaw_crm_create_lead', { p });
+            close(); toast('Lead added 🌸');
+            await load(false);
+            openLead(id);
+          } catch (e) { b.disabled = false; if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+        };
+        m.querySelector('#m-save').onclick = go;
+        m.querySelector('#m-form').addEventListener('submit', e => { e.preventDefault(); go(); });
+      });
+    }
+    $('#add').onclick = addLead;
+
+    function changePassword() {
+      modal(`
+        <h3>Change password</h3>
+        <p class="sub">Use at least 8 characters.</p>
+        <form id="pw-form" style="display:grid;gap:12px">
+          <div><label class="lbl">Current password</label><input class="input" name="old" type="password" autocomplete="current-password" required></div>
+          <div><label class="lbl">New password</label><input class="input" name="new" type="password" autocomplete="new-password" minlength="8" required></div>
+          <div><label class="lbl">Confirm new password</label><input class="input" name="new2" type="password" autocomplete="new-password" minlength="8" required></div>
+        </form>
+        <div class="row"><button class="btn" data-close>Cancel</button><button class="btn btn--primary" id="pw-save">Update password</button></div>`,
+      (m, close) => {
+        m.querySelector('#pw-save').onclick = async () => {
+          const f = new FormData(m.querySelector('#pw-form'));
+          if (f.get('new') !== f.get('new2')) { toast('New passwords don’t match', { error: true }); return; }
+          try {
+            await api('kaw_crm_change_password', { p_old: f.get('old'), p_new: f.get('new') });
+            close(); toast('Password updated ✓');
+          } catch (e) { if (e.code !== 'not_authorized') toast(e.message, { error: true }); }
+        };
+      });
+    }
+
+    /* ============================================================
+       Menu, export, shortcuts
+       ============================================================ */
+    const meBtn = $('#me-btn'), meMenu = $('#me-menu');
+    meBtn.onclick = e => { e.stopPropagation(); meMenu.hidden = !meMenu.hidden; meBtn.setAttribute('aria-expanded', String(!meMenu.hidden)); };
+    document.addEventListener('click', e => { if (!e.target.closest('.me')) { meMenu.hidden = true; meBtn.setAttribute('aria-expanded', 'false'); } });
+    $('#logout').onclick = () => signOut(false);
+    $('#pw').onclick = () => { meMenu.hidden = true; changePassword(); };
+    $('#refresh').onclick = async () => { await load(false); toast('Up to date ✓'); };
+    $('#export').onclick = () => {
+      meMenu.hidden = true;
+      const cols = ['created_at', 'name', 'phone', 'email', 'instagram', 'occasion', 'budget', 'event_date', 'colours', 'message', 'source', 'status', 'priority', 'value_inr', 'follow_up_at', 'last_contacted_at'];
+      const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const csv = [cols.join(','), ...filtered().map(l => cols.map(c => cell(l[c])).join(','))].join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' }));
+      a.download = `kala-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    };
+
+    document.addEventListener('keydown', e => {
+      if ($('#app').hidden || document.querySelector('.modal')) return;
+      const typing = e.target.matches('input, textarea, select');
+      if (e.key === 'Escape' && drawer.classList.contains('is-on')) { closeDrawer(); return; }
+      if (typing) return;
+      if (e.key === '/') { e.preventDefault(); $('#q').focus(); }
+      if (e.key === 'n') { e.preventDefault(); addLead(); }
+    });
+
+    // mark "new" badges as seen when leaving
+    addEventListener('beforeunload', () => { if (token) store.set(SEEN_KEY, new Date().toISOString()); });
+    addEventListener('focus', () => { if (token && !$('#app').hidden) load(false); });
+
+    /* ============================================================
+       Boot
+       ============================================================ */
+    addEventListener('DOMContentLoaded', async () => {
+      if (!token) return showAuth();
+      try {
+        const profile = await KalaAPI.rpc('kaw_crm_me', { p_token: token });
+        enterApp(profile);
+      } catch {
+        store.del(TOKEN_KEY); token = null;
+        showAuth();
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

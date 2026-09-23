@@ -354,6 +354,18 @@
     .lanyard-fallback img { display: block; width: 100%; aspect-ratio: 1.6 / 2.25; object-fit: cover; }
     .lanyard-fallback figcaption { padding: 12px 14px; font-family: var(--f-serif); font-size: 22px; }
 
+    /* ---------- about these bouquets ---------- */
+    .g-about { padding: 14vh 5vw; background: var(--surface); border-top: 1px solid var(--line); }
+    .g-about__inner { max-width: 1300px; margin: 0 auto; }
+    .g-about__title { margin: .4em 0 42px; max-width: 22ch; font-family: var(--f-serif); font-weight: 500; font-size: clamp(34px, 3.8vw, 64px); line-height: 1.02; }
+    .g-about__title em { font-style: italic; color: var(--blush); }
+    .g-about__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .g-about__cols > div { padding: 26px; border-radius: 22px; border: 1px solid var(--line); background: rgb(var(--fg-rgb) / .03); }
+    .g-about h3 { margin: 0 0 10px; font-family: var(--f-serif); font-weight: 600; font-size: 24px; }
+    .g-about p { margin: 0; color: var(--ink-mute); line-height: 1.7; font-size: 15.5px; }
+    .g-about a { color: var(--blush); text-decoration: underline; text-underline-offset: 3px; }
+    @media (max-width: 900px) { .g-about { padding: 10vh 16px; } .g-about__cols { grid-template-columns: 1fr; } }
+
     /* ---------- footer ---------- */
     .footer {
       border-top: 1px solid var(--line);
@@ -535,6 +547,26 @@
       <div class="lanyard-stage" id="lanyard-stage"></div>
       <div class="lanyard-fallback" id="lanyard-fallback" aria-hidden="true"></div>
     </section>
+    <section class="g-about" id="gallery-about" aria-labelledby="g-about-title">
+      <div class="g-about__inner">
+        <p class="eyebrow">About these bouquets · <span class="deva">परिचय</span></p>
+        <h2 class="g-about__title" id="g-about-title">Satin ribbon bouquets, <em>made one petal at a time.</em></h2>
+        <div class="g-about__cols">
+          <div>
+            <h3>What are they made of?</h3>
+            <p>Every flower in this gallery is folded by hand from satin ribbon in our Jaipur studio. Because there are no fresh petals, the bouquets never wilt, fade or need water — they stay as beautiful as the day you give them.</p>
+          </div>
+          <div>
+            <h3>Can I get one like these?</h3>
+            <p>Yes. Each bouquet is made to order, so you can copy a design you like or change the colours, the shape (round, heart, square box, cone or single stem) and the extras — chocolates, a name tag, pearls, a note or fairy lights.</p>
+          </div>
+          <div>
+            <h3>How much and how fast?</h3>
+            <p>Bouquets start at ₹199 and are usually ready 3–5 days after you approve the design. Send us a photo from this gallery on WhatsApp or through our <a href="/contact">contact page</a>, or <a href="/custom">design your own E-bouquet</a> first.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer" id="contact">
@@ -609,7 +641,7 @@
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms &amp; Conditions</a>
         <a href="/faq">FAQs</a>
-        <a class="sf-lock" href="/crm" aria-label="Staff login" title="Staff login"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></a>
+        <a class="sf-lock" href="/crm" rel="nofollow" aria-label="Staff login" title="Staff login"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></a>
       </nav>
       <a class="sf-top" href="#top">Back to top <i aria-hidden="true">↑</i></a>
     </div>

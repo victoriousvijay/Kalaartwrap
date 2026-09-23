@@ -1,4 +1,21 @@
+# Kala Art Wrap — search engines and AI assistants are welcome.
 User-agent: *
+Allow: /
+Disallow: /crm
+
+# AI search / answer engines (explicitly allowed so we can be cited)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: CCBot
 Allow: /
 Disallow: /crm
 

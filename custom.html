@@ -723,8 +723,6 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
     ];
     const FLOWERS = [
       { id: 'rose', label: 'Satin rose', svg: '<circle class="f" cx="32" cy="32" r="20"/><path class="s" d="M32 30c3-3 7 0 5 4-2 5-10 5-11-1-2-7 7-12 13-8 7 5 5 16-5 18"/>' },
-      { id: 'peony', label: 'Peony', svg: '<circle class="f" cx="32" cy="32" r="22"/><path class="s" d="M18 30c4-10 24-10 28 0M20 38c6 6 18 6 24 0M26 30c2-4 10-4 12 0"/>' },
-      { id: 'tulip', label: 'Tulip', svg: '<path class="f" d="M20 20c0 18 6 26 12 26s12-8 12-26l-6 6-6-10-6 10z"/>' },
       { id: 'daisy', label: 'Daisy', svg: '<g class="f">' + Array.from({ length: 10 }, (_, i) => `<ellipse cx="32" cy="16" rx="4" ry="11" transform="rotate(${i * 36} 32 32)"/>`).join('') + '</g><circle cx="32" cy="32" r="7" fill="#e0a63a"/>' }
     ];
     const FLOWER_COLORS = [
@@ -760,10 +758,10 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
       { name: 'Blush dream', sw: '#f2a2b6', s: { shape: 'heart', flower: 'rose', colors: ['blush', 'baby', 'ivory'], count: 16, wrap: 'white', ribbon: 'blush', trim: 'gold', scene: 'blush', extras: { babys: true, pearls: true, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: false } } },
       { name: 'Choco love', sw: '#7a0f2b', s: { shape: 'round', flower: 'rose', colors: ['wine', 'ivory'], count: 9, wrap: 'kraft', ribbon: 'wine', trim: 'none', scene: 'cream', extras: { babys: true, pearls: false, lights: false, chocolates: true, butterflies: false, sparkles: false, leaves: true } } },
       { name: 'Royal night', sw: '#2b4bb3', s: { shape: 'box', flower: 'rose', colors: ['royal', 'ivory'], count: 12, wrap: 'white', ribbon: 'royal', trim: 'silver', scene: 'midnight', extras: { babys: true, pearls: true, lights: true, chocolates: false, butterflies: false, sparkles: true, leaves: false } } },
-      { name: 'Lavender', sw: '#b79be0', s: { shape: 'cone', flower: 'peony', colors: ['lavender', 'baby'], count: 7, wrap: 'lilac', ribbon: 'white', trim: 'silver', scene: 'blush', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: true } } },
+      { name: 'Lavender', sw: '#b79be0', s: { shape: 'cone', flower: 'rose', colors: ['lavender', 'baby'], count: 7, wrap: 'lilac', ribbon: 'white', trim: 'silver', scene: 'blush', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: true, sparkles: true, leaves: true } } },
       { name: 'One true love', sw: '#7a0f2b', s: { shape: 'stem', flower: 'rose', colors: ['wine'], count: 1, wrap: 'black', ribbon: 'gold', trim: 'gold', scene: 'wine', extras: { babys: true, pearls: true, lights: false, chocolates: false, butterflies: false, sparkles: true, leaves: true } } },
       { name: 'Sunshine', sw: '#f2c94c', s: { shape: 'round', flower: 'daisy', colors: ['ivory', 'sunny'], count: 14, wrap: 'kraft', ribbon: 'white', trim: 'none', scene: 'sage', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: true, sparkles: false, leaves: true } } },
-      { name: 'Tulip garden', sw: '#f6ae8a', s: { shape: 'cone', flower: 'tulip', colors: ['peach', 'blush', 'ivory'], count: 9, wrap: 'sage', ribbon: 'blush', trim: 'gold', scene: 'cream', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: false, sparkles: false, leaves: true } } }
+      { name: 'Peach garden', sw: '#f6ae8a', s: { shape: 'cone', flower: 'rose', colors: ['peach', 'blush', 'ivory'], count: 9, wrap: 'sage', ribbon: 'blush', trim: 'gold', scene: 'cream', extras: { babys: true, pearls: false, lights: false, chocolates: false, butterflies: false, sparkles: false, leaves: true } } }
     ];
 
     const byId = (list, id) => list.find(x => x[0] === id || x.id === id);

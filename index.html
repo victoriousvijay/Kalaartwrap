@@ -2844,31 +2844,31 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
   <script>
   /* ============================================================
      Masonry wall — vanilla port of React Bits <Masonry />
-     (placeholder photos: swap the ids for your own images)
+     (Kala Art Wrap's own bouquet photos, assets/gallery/)
      ============================================================ */
   (() => {
     const MOMENTS = [
-      ['1582794543139-8ac9cb0f7b11', 720, 'Blush classic'],
-      ['1523693916903-027d144a2b7d', 520, 'Soft pink roses'],
-      ['1680563094046-5d846e2c59d1', 800, 'Crimson wrap'],
-      ['1589458456444-f7158a7e8a4f', 560, 'Pearl white'],
-      ['1518709779341-56cf4535e94b', 640, 'Wine romance'],
-      ['1469317835793-6d02c2392778', 760, 'Lavender dream'],
-      ['1608027790251-5e0c80d043d9', 480, 'Blush cluster'],
-      ['1572454591674-2739f30d8c40', 620, 'Forever red'],
-      ['1652346072098-cfc2e94d30e7', 700, 'Peach wrap'],
-      ['1622658641558-235f26dd270b', 580, 'Gift in hand'],
-      ['1580740132087-761c25cacbf6', 520, 'Ivory roses'],
-      ['1589100534833-475e31a17b4e', 740, 'Kraft wrap'],
-      ['1512056495345-913a0c261dc8', 600, 'Mixed roses'],
-      ['1652346107876-58d7354ce9b8', 680, 'Pink paper wrap'],
-      ['1494337095615-b5f370aad75f', 540, 'Coral wrap'],
-      ['1523694576729-dc99e9c0f9b4', 660, 'Pastel bouquet'],
-      ['1667555150959-3e881131b9e4', 500, 'Red bunch'],
-      ['1599791095997-5cf38bb5ff69', 720, 'Tied with love']
+      ['06', 720, 'Red & pink rose box'],
+      ['02', 520, 'Dairy Milk chocolate bouquet'],
+      ['21', 800, 'Royal blue roses'],
+      ['34', 560, 'Red & ivory classic'],
+      ['37', 640, 'Pink roses & butterfly'],
+      ['16', 760, 'Red rose heart'],
+      ['04', 480, 'Blue roses & chocolates'],
+      ['20', 620, 'Grand red rose bouquet'],
+      ['23', 700, 'Red & white roses'],
+      ['03', 580, 'Photo memory bouquet'],
+      ['10', 520, 'Pink roses, black wrap'],
+      ['36', 740, 'Red & ivory roses'],
+      ['19', 600, 'Snickers & roses'],
+      ['07', 680, 'Copper rose bouquet'],
+      ['27', 540, 'Navy & silver roses'],
+      ['31', 660, 'Red & ivory with hearts'],
+      ['01', 500, 'Jewellery gift bouquet'],
+      ['35', 720, 'Dairy Milk & sky-blue roses']
     ].map(([id, height, label]) => ({
       id, height, label,
-      img: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${innerWidth < 700 ? 360 : 520}&h=${Math.round(height * (innerWidth < 700 ? .72 : 1.04))}&q=70`
+      img: `assets/gallery/${id}-480.webp`
     }));
 
     const OPTS = { ease: 'power3.out', duration: 0.6, stagger: 0.05, animateFrom: 'bottom', scaleOnHover: true, hoverScale: 0.95, blurToFocus: true };

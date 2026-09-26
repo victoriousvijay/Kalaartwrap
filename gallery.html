@@ -178,7 +178,6 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap"></noscript>
-  <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="preload" href="assets/footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="assets/footer.css"></noscript>
 
   <style>
@@ -800,44 +799,43 @@ html[data-theme="light"] .theme-toggle .i-moon { transform: translateY(-120%) ro
 
   <script>
   /* ============================================================
-     GALLERY DATA — replace these with your own bouquet photos.
-     Put files in assets/gallery/ and use e.g. 'assets/gallery/01.jpg'.
-     (Current images are Unsplash placeholders.)
+     GALLERY DATA — Kala Art Wrap's own bouquet photos.
+     Files live in assets/gallery/NN-480.webp (thumb) and NN-1200.webp (full).
      ============================================================ */
-  const U = (id, w, h) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}${h ? `&h=${h}` : ''}&q=80`;
+  const U = (id, w) => `assets/gallery/${id}-${w <= 480 ? 480 : 1200}.webp`;
 
   const ACCORDION = [
-    { id: '1582794543139-8ac9cb0f7b11', label: 'Blush Classic',  note: 'Round bouquet' },
-    { id: '1680563094046-5d846e2c59d1', label: 'Crimson Wrap',   note: 'Signature wrap' },
-    { id: '1518709779341-56cf4535e94b', label: 'Wine Romance',   note: 'Anniversary' },
-    { id: '1469317835793-6d02c2392778', label: 'Lavender Dream', note: 'Birthday' },
-    { id: '1572454591674-2739f30d8c40', label: 'Forever Red',    note: 'Proposal' },
-    { id: '1622658641558-235f26dd270b', label: 'Gift in Hand',   note: 'Just because' }
+    { id: '20', label: 'Grand red rose bouquet', note: 'Proposal' },
+    { id: '05', label: 'Blue roses with Dairy Milk', note: 'Birthday' },
+    { id: '09', label: 'Copper glitter roses', note: 'Anniversary' },
+    { id: '08', label: 'Teacher\'s Day rose basket', note: 'Teacher\'s Day' },
+    { id: '37', label: 'Pink roses & butterfly', note: 'Just because' },
+    { id: '01', label: 'Jewellery gift bouquet', note: 'Gift hamper' }
   ];
 
   const SPIRAL = [
-    ['1523693916903-027d144a2b7d', 'Soft pink roses'],
-    ['1589458456444-f7158a7e8a4f', 'Pearl white bouquet'],
-    ['1559779080-6970e0186790', 'Scarlet roses'],
-    ['1608027790251-5e0c80d043d9', 'Blush rose cluster'],
-    ['1512056495345-913a0c261dc8', 'Mixed rose bouquet'],
-    ['1652346072098-cfc2e94d30e7', 'Peach wrap'],
-    ['1580740132087-761c25cacbf6', 'Ivory roses'],
-    ['1667555150959-3e881131b9e4', 'Red rose bunch'],
-    ['1589100534833-475e31a17b4e', 'Kraft wrap bouquet'],
-    ['1523694576729-dc99e9c0f9b4', 'Pastel bouquet'],
-    ['1494337095615-b5f370aad75f', 'Coral wrap'],
-    ['1652346107876-58d7354ce9b8', 'Pink paper wrap'],
-    ['1556712691-5c39e0e32a8e', 'Rose garden'],
-    ['1620346328449-f8fb90a40ad5', 'Red roses in bloom'],
-    ['1599791095997-5cf38bb5ff69', 'Tied with love']
+    ['12', 'Glitter blue roses'],
+    ['13', 'Glitter red roses'],
+    ['14', 'Silver glitter roses'],
+    ['15', 'Red glitter trio'],
+    ['17', 'Orange satin roses'],
+    ['18', 'Red & black roses'],
+    ['22', 'Blue roses, white wrap'],
+    ['24', 'Mini blue & white posy'],
+    ['25', 'Happy Birthday bouquet'],
+    ['26', 'Blue & white mini'],
+    ['28', 'Hearts & roses'],
+    ['29', 'Blue & white posy'],
+    ['30', 'Kraft wrap with hearts'],
+    ['32', 'KitKat rose bouquet'],
+    ['33', 'Single rose stems']
   ];
 
   window.KALA_LANYARDS = [
-    { id: '1680563094046-5d846e2c59d1', title: 'Anniversary', line: 'For the one who stayed' },
-    { id: '1469317835793-6d02c2392778', title: 'Birthday', line: 'Another year, forever' },
-    { id: '1572454591674-2739f30d8c40', title: 'Proposal', line: 'Ask with roses' },
-    { id: '1582794543139-8ac9cb0f7b11', title: 'Just Because', line: 'No reason needed' }
+    { id: '06', title: 'Anniversary', line: 'For the one who stayed' },
+    { id: '25', title: 'Birthday', line: 'Another year, forever' },
+    { id: '34', title: 'Proposal', line: 'Ask with roses' },
+    { id: '17', title: 'Just Because', line: 'No reason needed' }
   ].map(c => ({ ...c, src: U(c.id, 700, 700) }));
 
   (() => {

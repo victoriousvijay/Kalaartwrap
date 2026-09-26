@@ -5,3 +5,7 @@
 node_modules
 .DS_Store
 Thumbs.db
+
+# original photo exports (optimised copies live in assets/gallery)
+WhatsApp */
+WhatsApp *.zip
